@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K.M.T. Retreading Industries | Tyre Retreading Plants & Machinery</title>
+    <style>
+        :root {
+            --primary-color: #0077b6;
+            --secondary-color: #ffcc00; 
+            --bg-light: #eaf4fc; 
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --modal-overlay: rgba(0, 0, 0, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+		
+		header {
+            background-color: #2b8cbe; /* Solid blue matching your screenshot */
+            color: var(--text-light);
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            background-color: var(--secondary-color); /* Yellow */
+            color: var(--text-dark);
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #e6b800;
+        }
+
+        /* About Image Placeholder */
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            height: 300px;
+            background-color: var(--bg-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed var(--primary-color);
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        body {
+            color: var(--text-dark);
+            background-color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo span {
+            font-size: 0.8rem;
+            font-weight: normal;
+            color: var(--secondary-color);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Sections */
+        section {
+            padding: 60px 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--primary-color);
+        }
+        
+        .bg-light {
+            background-color: var(--bg-light);
+        }
+
+        /* About Section */
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .about-text p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* Machine Grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--text-light);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            border: 1px solid #ddd;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border-color: var(--primary-color);
+        }
+
+        .card-img-container {
+            height: 250px;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 3px solid var(--secondary-color);
+            padding: 15px;
+        }
+
+        .card-img-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .card-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .card-content h4 {
+            color: #005f8e;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            background: #f0f0f0;
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .card-content p.summary {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .btn-view {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            transition: background 0.3s;
+            text-align: center;
+        }
+
+        .card:hover .btn-view {
+            background-color: var(--secondary-color);
+            color: var(--text-dark);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 2000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow-y: auto; 
+            background-color: var(--modal-overlay);
+            padding: 40px 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            border-radius: 12px;
+            max-width: 1000px;
+            display: flex;
+            flex-wrap: wrap;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #d9534f;
+            text-decoration: none;
+        }
+
+        .modal-image {
+            flex: 1;
+            min-width: 300px;
+            background-color: #fff;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-right: 1px solid #eee;
+        }
+
+        .modal-image img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .modal-details {
+            flex: 1.5;
+            min-width: 300px;
+            padding: 40px;
+            background-color: #f9f9f9;
+        }
+
+        .modal-details h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .modal-details h3 {
+            color: #555;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            background: var(--secondary-color);
+            padding: 5px 15px;
+            border-radius: 4px;
+            color: #000;
+        }
+
+        .modal-details ul {
+            list-style-type: none;
+        }
+
+        .modal-details ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+            color: #333;
+        }
+
+        .modal-details ul li::before {
+            content: '➡';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        /* Separate Certifications Section */
+        .cert-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 2px solid var(--primary-color);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .cert-text {
+            text-align: left;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .cert-text h3 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .cert-text p {
+            margin-bottom: 10px;
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: #444;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cert-qr {
+            width: 150px;
+            height: 150px;
+            background: var(--bg-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed var(--primary-color);
+            border-radius: 8px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Contact Section */
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            background: var(--primary-color);
+            color: var(--text-light);
+            padding: 40px;
+            border-radius: 8px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        footer {
+            background: #004d7a;
+            color: #ccc;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+		.modal-actions {
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            text-align: center;
+            transition: opacity 0.3s;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .action-btn:hover {
+            opacity: 0.8;
+            color: #fff; /* Keep text white on hover */
+        }
+
+        .wa-btn { background-color: #25D366; } /* WhatsApp Green */
+        .email-btn { background-color: #d44638; } /* Email Red */
+        .sms-btn { background-color: #007bff; } /* SMS Blue */
+
+        @media (max-width: 768px) {
+            nav ul { display: none; }
+            .modal-content { flex-direction: column; }
+            .modal-image { border-right: none; border-bottom: 1px solid #eee; padding: 20px;}
+            .modal-details { padding: 20px; }
+            .cert-container { flex-direction: column; text-align: center; }
+            .cert-text { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            K.M.T. RETREADING INDUSTRIES
+            <span>An ISO 9001:2015 Certified Organization</span>
+        </div>
+        <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#products">Machinery</a></li>
+            <li><a href="#certifications">Certifications</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+	
+	<header id="home">
+        <h1>Advanced Tyre Retreading Plants & Machinery</h1>
+        <p>Providing high-quality retreading equipment, machinery spares, and exceptional after-sale services since 1995. Proudly recognized by the Government of India.</p>
+        <a href="#products" class="btn">Explore Our Machines</a>
+    </header>
+
+    <!-- About Section (Now the first section) -->
+  <!-- Replace your current #about section with this -->
+    <section id="about">
+        <h2 class="section-title">About K.M.T.</h2>
+        <div class="about-content">
+            <div class="about-text">
+              <p>K.M.T. was established in 1995 in Narwana, District Jind, Haryana. The company began by manufacturing equipment for hot tyre retreading, along with the production of moulds and dies. With the growing adoption of cold retreading technology, K.M.T. developed its own range of automatic equipment to meet evolving market demands.</p>
+
+<p>As the industry expanded, K.M.T. continuously elevated its standards through automation and regular upgrades of its machinery. We take pride in being the first machinery manufacturer from Narwana, Haryana to enter international markets. The company has extensive experience in supplying, installing, and servicing equipment for both State Transport Undertakings (STUs) and Public Sector Undertakings (PSUs) across India.</p>
+
+<p>We are committed to delivering high-performance equipment with unmatched efficiency. Backed by modern manufacturing and testing facilities, K.M.T. ensures complete customer satisfaction through reliable and dedicated after-sales support.</p>    <br>
+                <strong>Kuldeep Kumar, Prop.</strong>
+            </div>
+            <div class="about-image">
+			
+              <img src="1.png" alt="K.M.T Image">
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="bg-light">
+        <h2 class="section-title">Retreading Equipment Series</h2>
+        
+        <!-- The Grid -->
+        <div class="grid-container" id="machine-grid">
+            <!-- JavaScript will inject cards here -->
+        </div>
+    </section>
+
+    <!-- Full Details Modal -->
+ <!-- Full Details Modal -->
+    <div id="machineModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="modal-image">
+                <img id="modalImg" src="" alt="Machine Image">
+            </div>
+            <div class="modal-details">
+                <h2 id="modalTitle">Machine Name</h2>
+                <h3 id="modalModel">Model #</h3>
+                <ul id="modalList">
+                    <!-- Specs injected here -->
+                </ul>
+                
+                <!-- PASTE THIS NEW BLOCK HERE -->
+                <div class="modal-actions">
+                    <h4 style="margin-top: 30px; margin-bottom: 15px; color: var(--primary-color);">Inquire about this machine:</h4>
+                    <div class="contact-buttons">
+                        <a href="#" id="btnWhatsapp" class="action-btn wa-btn" target="_blank">WhatsApp</a>
+                        <a href="#" id="btnEmail" class="action-btn email-btn">Email</a>
+                        <a href="#" id="btnSms" class="action-btn sms-btn">SMS</a>
+                    </div>
+                </div>
+                <!-- END NEW BLOCK -->
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Separated Certifications Section -->
+    <section id="certifications">
+        <h2 class="section-title">Certifications & Awards</h2>
+        <div class="cert-container">
+            <div class="cert-text">
+                <h3>Government & Industry Recognition</h3>
+                <p>🏅 An ISO 9001:2015 Certified Organization</p>
+                <p>📜 Trade Marks Registry #2333779 Class 7</p>
+                <p>🌍 Recognized for excelling in the field of Exports</p>
+            </div>
+            <div class="cert-qr">
+                [Insert QR Code / Badge Image]
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="contact-container">
+            <div style="flex: 1;">
+                <h3 style="color: var(--secondary-color); margin-bottom: 20px;">Contact Us</h3>
+                <p><strong>Factory & Office:</strong> Plot No. 31, HSIIDC Industrial Estate, Narwana-126116, Distt. Jind (Haryana) India</p>
+                <p><strong>Phone:</strong> +91-1684-240530, +91-98120-44530</p>
+                <p><strong>Mobile:</strong> +91-96713-14530, +91-97283-32000, +91-99964-21530</p>
+                <p><strong>Email:</strong> kmtretind@gmail.com</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 K.M.T. Retreading Industries. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Interactive JavaScript -->
+    <script>
+        // Database of all machines and full specifications from your catalog
+        const machineData = [
+            {
+                id: 1,
+                name: "Buffer",
+                model: "KRI-BF-10.20",
+                img: "image/1.png",
+                summary: "10.20 tyre size buffer with 7.5 H.P motor and pneumatic brake.",
+                specs: [
+                    "Capacity: 10.20 tyre size.",
+                    "Provided with 7.5 H.P motor for buffing.",
+                    "Shoulder trimming facility.",
+                    "Forward & Reverse Buffing Facility.",
+                    "Pneumatic brake for rotary table & rasp stand.",
+                    "Heavy section 3H.P Blower for buffer dust.",
+                    "Air blow Gun for air blowing purpose as required.",
+                    "Specially designed rasp Hub assembly & blades for uninterrupted working.",
+                    "Motorised table slide movement with 0.5HP motor.",
+                    "Overall dimensions 6'x6'x6' Appx.",
+                    "Air Consumption: 10 cfm at 125 Psi: 50 cfm at 125Psi while inflation.",
+                    "Connected load 9.37 K.W."
+                ]
+            },
+            {
+                id: 2,
+                name: "Builder",
+                model: "KRI-BD-10.20",
+                img: "image/2.png",
+                summary: "Upto 10.20 tyre size builder with zero air entrapment stitcher wheels.",
+                specs: [
+                    "Capacity: upto 10.20 tyre size.",
+                    "Foot switch operated tyre drive.",
+                    "Provided with leak proof chucks.",
+                    "Specially designed sticher wheels, moving on linear wheels, for zero air entrapment.",
+                    "Forward & reverse tyre drive motion.",
+                    "Provided with Pneumatic tread cutter.",
+                    "Safeties for high inflation Pressure.",
+                    "Overall Dimensions 5'x5'x5' Appx.",
+                    "Air consumption 10cfm at 125psi intermittent: 50cfm at 125 psi while inflation.",
+                    "Connected load: 0.38 KW."
+                ]
+            },
+            {
+                id: 3,
+                name: "Buffer (Expandable)",
+                model: "KRI-BF-10.20",
+                img: "image/3.png",
+                summary: "Expandable buffer for 10.20 tyre size with 7.5 HP motor.",
+                specs: [
+                    "Capacity: 10.20 tyre size.",
+                    "Provided with 7.5 H.P motor for buffing.",
+                    "Shoulder trimming facility.",
+                    "Forward Buffing Facility.",
+                    "Pneumatic brake for rotary table & rasp stand.",
+                    "Heavy section 3H.P Blower for buffer dust.",
+                    "Air blow Gun for air blowing purpose as required.",
+                    "Specially designed rasp Hub assembly & blades for uninterrupted working.",
+                    "Motorised table slide movement with 0.5HP motor.",
+                    "Overall dimensions 6'x6'x6' Appx.",
+                    "Air Consumption: 10 cfm at 125 Psi: 50 cfm at 125Psi while inflation.",
+                    "Connected load 8.87 K.W."
+                ]
+            },
+            {
+                id: 4,
+                name: "Builder (Expandable)",
+                model: "KRI-BD-10.20",
+                img: "image/4.jpg.jpeg",
+                summary: "Builder featuring an expandable hub and pneumatic tread cutter.",
+                specs: [
+                    "Capacity: upto 10.20 tyre size.",
+                    "Foot switch operated tyre drive.",
+                    "Provided with Expandable hub.",
+                    "Specially designed sticher wheels, moving on linear wheels, for zero air entrapment.",
+                    "Forward & reverse tyre drive motion.",
+                    "Provided with Pneumatic tread cutter.",
+                    "Safeties for high inflation Pressure.",
+                    "Overall Dimensions 5'x5'x5' Appx.",
+                    "Air consumption 10cfm at 125psi intermittent: 50cfm at 125 psi while inflation.",
+                    "Connected load: 0.38 KW."
+                ]
+            },
+            {
+                id: 5,
+                name: "Buffer (OTR)",
+                model: "KRI-BF-14.25",
+                img: "image/5.png",
+                summary: "Heavy-duty OTR buffer upto 14.25 tyre size with 10 H.P. motor.",
+                specs: [
+                    "Capacity Upto 14.25 tyre size.",
+                    "Provided with one fixed & one movable chuck.",
+                    "10 H.P. motor for buffing.",
+                    "Pneumatically operated inbuilt tyre lift for lifting of tyre from the floor to the chuck.",
+                    "Tread measuring device for easy measurement of circumference.",
+                    "Shoulder trimming facility & Forward/reverse buffing facility.",
+                    "Device for measuring shoulder trimming width.",
+                    "Rasp blades sharpening attachment.",
+                    "Pneumatic brake for rotary table & rasp stand.",
+                    "Heavy suction 3 H.P. blower for buffer dust & Air blow gun.",
+                    "Air jets for buffer dust cleaning at side roil & lead screw.",
+                    "Specially designed rasp hub assembly & blades for uninterrupted working.",
+                    "Motorised table slide movement with 0.5 H.P. motor.",
+                    "Overall Dimensions: 7'x8'x9' Appx.",
+                    "Air consumption: 10cfm at 125psi: 50cfm at 125psi, while inflation.",
+                    "Connected load: 15.5 KW.",
+                    "OPTIONAL - Provided with tractor tyre attachment with 7.5 H.P. Motor."
+                ]
+            },
+            {
+                id: 6,
+                name: "Builder (OTR)",
+                model: "KRI-KBD-14.25",
+                img: "image/6.png",
+                summary: "OTR Builder with movable/fixed chucks and adjustable stitcher wheels.",
+                specs: [
+                    "Capacity: Upto 14.25 tyre size.",
+                    "Foot switch operated tyre drive control.",
+                    "Provide with one movable & one fixed chuck.",
+                    "Pneumatic tyre lift for lifting of tyre from the floor to the desired level between the chucks.",
+                    "Specially designed stitcher wheels, moving on linear bearings for zero air entrapment.",
+                    "Adjustable stitcher wheels linear speed.",
+                    "Forward & reverse tyre drive motion.",
+                    "Overall Dimensions: 6'x5'x7' Appx.",
+                    "Air consumption: 10cfm at 125psi Intermittent: 50cfm at 125psi while inflation.",
+                    "Connected load: 0.38 KW."
+                ]
+            },
+            {
+                id: 7,
+                name: "Mini Rasper",
+                model: "KRI-MRS-11.20",
+                img: "image/7.png",
+                summary: "11.20 tyre capacity with 10 H.P buffing motor and inbuilt tyre lift.",
+                specs: [
+                    "Capacity: 11.20 tyre size.",
+                    "Provided with 10 H.P motor for buffing.",
+                    "Pneumatically operated inbuilt tyre lift for lifting of tyre from the floor to chuck.",
+                    "Shoulder trimming facility provided.",
+                    "Forward & reverse buffing facility provided.",
+                    "Pneumatic brake for rotary table & rasp stand.",
+                    "Heavy section 3 H.P blower for buffer dust.",
+                    "Air blow gun for air blowing purpose as required.",
+                    "Specially designed rasp hub assembly & blades for uninterrupted working.",
+                    "Motorised table slide motion with 0.5 H.P motor.",
+                    "Foot switch operated tyre drive control.",
+                    "Overall Dimensions: 6'x6'x7' Appx.",
+                    "Air pressure required: 10kg/cm2.",
+                    "Air consumption: 40cfm at 100psi, while inflation.",
+                    "Connected load: 11.37 K.W."
+                ]
+            },
+            {
+                id: 8,
+                name: "Mini Rasper (Expandable)",
+                model: "KRI-MRS-12.20",
+                img: "image/8.png",
+                summary: "12.20 tyre capacity expandable mini rasper with 12\"-24\" rim.",
+                specs: [
+                    "Capacity: 12.20 tyre size.",
+                    "Provided with 10 H.P motor for buffing.",
+                    "Pneumatically operated inbuilt tyre lift for lifting of tyre from the floor to expandable rim.",
+                    "Shoulder trimming facility provided.",
+                    "Forward & reverse buffing facility provided.",
+                    "Pneumatic brake for rotary table & rasp stand.",
+                    "Heavy section 3 H.P blower for buffer dust.",
+                    "Air blow gun for air blowing purpose as required.",
+                    "Specially designed rasp hub assembly & blades for uninterrupted working.",
+                    "Motorised table slide motion with 0.5 H.P motor.",
+                    "Foot switch operated tyre drive control.",
+                    "Overall Dimensions: 6'x6'x7' Appx.",
+                    "Air pressure required: 10kg/cm2.",
+                    "Air consumption: 40cfm at 100psi, while inflation.",
+                    "Connected load: 11.37 K.W.",
+                    "EXPANDABLE RIM UP-TO TYRE SIZE 12\" TO 24\" (Available with 10 Segments & 12 Segments)."
+                ]
+            },
+            {
+                id: 9,
+                name: "Inspection Spreader",
+                model: "KRI-IS-10.20",
+                img: "image/9.png",
+                summary: "Pneumatic tyre inspection with 4 lights and floor-to-jaw lift.",
+                specs: [
+                    "Pneumatically air operated.",
+                    "Capacity to inspect 10.00-20 tyre size.",
+                    "Provided with 4 lights for clear vision.",
+                    "Provided with tyre lift for lifting of tyre from the floor to the gripping jaws.",
+                    "Multi angular bead hooks for firm gripping of tyre from the bead circumference.",
+                    "Overall Dimensions: 3'x6'x7' Appx.",
+                    "Air Pressure required: 8Kg/cm2.",
+                    "Connected load: 0.4Kw."
+                ]
+            },
+            {
+                id: 10,
+                name: "Repair Spreader",
+                model: "KRI-IS-10.20",
+                img: "image/10.png",
+                summary: "Compact pneumatic repair spreader for upto 10.00-20 tyre size.",
+                specs: [
+                    "Pneumatically air operated.",
+                    "Capacity to inspect 10.00-20 tyre size.",
+                    "Provided with light for clear vision.",
+                    "Multi angular bead hooks for firm gripping of tyre from the bead circumference.",
+                    "Overall Dimensions: 3'x2'x3' Appx.",
+                    "Air pressure required: 8Kg/cm2.",
+                    "Connected load: 0.1KW."
+                ]
+            },
+            {
+                id: 11,
+                name: "Cold Curing Chamber (Standard)",
+                model: "KRI-CCC-4/5/7/11/14-12.20",
+                img: "image/11.png",
+                summary: "High-capacity insulated curing chambers with pneumatic doors.",
+                specs: [
+                    "Available capacities: 4, 5, 7, 11, or 14 tyres of 10.00-20 + 1 tyre of LTV.",
+                    "Inside & outside insulated for less power consumption. Outside fan Motor.",
+                    "Hydraulically tested at 12kg/cm².",
+                    "Finned type heaters for heat dissipation.",
+                    "Pneumatic door design for more safety & easy operation.",
+                    "Air ducting for streamlined air flow & equal temperature distribution.",
+                    "Fitted with thermometer, overheat safety controller with digital temperature display.",
+                    "999 minutes timer for auto exhaust & indication through hooter for completion of curing cycle.",
+                    "Auto differential Pressure control.",
+                    "Interlocking of heaters with fan motor & chamber pressure.",
+                    "Provided with safeties like high chamber Pressure / tyre pressure & high temperature.",
+                    "Overall Dimensions: 9'x7'x6' Appx.",
+                    "Air Pressure required: 10kg/cm².",
+                    "Air consumption required: 60 cfm at 150psi.",
+                    "Connected load: 15.50 KW.",
+                    "Optional: Differential pressure curing (D.P.C.) System, Alarming system, Pressure/Temperature Recorders."
+                ]
+            },
+            {
+                id: 12,
+                name: "Cold Curing Chamber (Pin Type)",
+                model: "KRI-CCC-3-11.20",
+                img: "image/12.png",
+                summary: "Insulated 3-tyre curing chamber with round heaters and pin-type door.",
+                specs: [
+                    "Capacity: Upto 11.20 tyre size (3 tyres of 10.00-20 + 1 tyre of LTV size).",
+                    "Inside & Outside insulated. Outside fan motor.",
+                    "Round type heaters for fast heat dissipation.",
+                    "Pin type door design, provided with 4 Nos Heavy duty locks L type.",
+                    "Fitted with thermometer, overheat safety controller with digital temperature display.",
+                    "999 mins timer for auto exhaust & indication through hooter.",
+                    "Auto differential pressure control.",
+                    "Interlocking of heaters with fan motor & chamber pressure.",
+                    "Overall Dimensions: 6'x7'x6' Appx.",
+                    "Air Pressure: 8Kg/cm².",
+                    "Air consumption required: 27cfm at 150psi.",
+                    "Connected load: 12.50 K.W."
+                ]
+            },
+            {
+                id: 13,
+                name: "Cold Curing Chamber (Pneumatic Door)",
+                model: "KRI-CCC-3-11.20",
+                img: "image/13.png",
+                summary: "3-tyre chamber featuring a pneumatic door and inbuilt tyre lift.",
+                specs: [
+                    "Capacity: Upto 11.20 tyre size (3 tyres of 10.00-20 + 1 tyre of LTV size).",
+                    "Inside & Outside insulated. Outside fan motor.",
+                    "Round type heaters for fast heat dissipation.",
+                    "Pneumatic door design for more safety & easy operation.",
+                    "Fitted with thermometer, overheat safety controller with digital temperature display.",
+                    "999 mins timer for auto exhaust & hooter indication.",
+                    "Auto differential pressure control.",
+                    "Interlocking of heaters with fan motor & chamber pressure.",
+                    "Provided with Pneumatic tyre lift.",
+                    "Overall Dimensions: 6'x7'x6' Appx.",
+                    "Air Pressure: 8Kg/cm².",
+                    "Air consumption required: 27cfm at 150psi.",
+                    "Connected load: 12.50 K.W."
+                ]
+            },
+            {
+                id: 14,
+                name: "Electric Cut Vulcanizing Machine",
+                model: "KRI-ECV-32",
+                img: "image/14.png",
+                summary: "Vulcanizing machine up to 12.20 tyre size with air heaters.",
+                specs: [
+                    "Capacity Up-to 12.20 tyre size.",
+                    "Provided with three Bolts, Air Heaters, Control Panel with stand.",
+                    "Bead plate 20\" - One Set.",
+                    "Spacer ring (1 Set of 4 No.) 1/2\", 3/4\", 1\" (2pcs).",
+                    "Overall Dimensions: 3'x3'x3' Appx.",
+                    "Connected Load: 5 KW."
+                ]
+            },
+            {
+                id: 15,
+                name: "Electric Cut Vulcanizing Machine (OTR)",
+                model: "KRI-ECV-52",
+                img: "image/15.png",
+                summary: "Heavy-duty OTR vulcanizer up to 14.25 tyre size.",
+                specs: [
+                    "Capacity Up-to 14.25 tyre size.",
+                    "Provided with three Bolts, Air Heaters, Control Panel with stand.",
+                    "Bead plate (Three Sets) 24\", 25\" & 28\".",
+                    "Spacer ring (1 Set of 6 No.) 1/2\", 3/4\", 1\"(2pcs), 2\" (2 Pcs).",
+                    "Overall Dimensions: 3'x3'x3' Appx.",
+                    "Connected Load: 6 KW."
+                ]
+            },
+            {
+                id: 16,
+                name: "Mono Rail",
+                model: "KRI-MR-7-12.20",
+                img: "image/16.png",
+                summary: "Capable of holding 14 tyres at a time for easy chamber loading.",
+                specs: [
+                    "Capacity: 12.20 tyre size.",
+                    "Capable of 14 tyres at a time for easy & quick loading in the chamber.",
+                    "Provided with pneumatically operated Tyre lift for lifting of rimmed tyres.",
+                    "Overall Dimensions: 14'x6'x6' Appx.",
+                    "Air Pressure required: 8 Kg/cm2."
+                ]
+            },
+            {
+                id: 17,
+                name: "Mobile Type Lift",
+                model: "KRI-TL-10.20",
+                img: "image/17.png",
+                summary: "Movable pneumatic lift for heavy rimmed tyres.",
+                specs: [
+                    "Movable lift for lifting of rimmed tyres.",
+                    "Pneumatically operated frame.",
+                    "Heavy Duty castor wheels.",
+                    "Capacity: upto 10.00-20 tyre size.",
+                    "Overall dimensions 6'x3'x3' Appx."
+                ]
+            },
+            {
+                id: 18,
+                name: "Skiving Stand",
+                model: "KRI-SS-4-10.00-20",
+                img: "image/18.png",
+                summary: "Sturdy stand holding up to 4 tyres for skiving work.",
+                specs: [
+                    "Capacity upto 10.00-20 tyre size.",
+                    "Holds upto 4 tyres of 10.00-20.",
+                    "Overall dimensions 3'x4'x 4' Appx."
+                ]
+            },
+            {
+                id: 19,
+                name: "Skiving Motor",
+                model: "KRI-FSB",
+                img: "image/19.png",
+                summary: "Trolley-mounted balanced rotor motor for skiving.",
+                specs: [
+                    "An efficient equipment for doing the skiving work.",
+                    "Driven by 1 H.P/2800rpm motor.",
+                    "Mounted on a trolley for easy movement.",
+                    "Fully balanced rotor."
+                ]
+            },
+            {
+                id: 20,
+                name: "Envelopure Expander",
+                model: "KRI-EE-12.20",
+                img: "image/20.png",
+                summary: "Pneumatic tyre lift expander for 12.20 tyre sizes.",
+                specs: [
+                    "Provided with tyre lift Pneumatical operated.",
+                    "Capacity 12.20 tyre size.",
+                    "Overall Dimensions: 7'x7'x3' Appx."
+                ]
+            },
+            {
+                id: 21,
+                name: "Warming Tray",
+                model: "KRI-WT",
+                img: "image/21.png",
+                summary: "Thermostat-controlled device for heating repair gum.",
+                specs: [
+                    "An excellent device for heating of repair gum to be used for filling.",
+                    "Provided with a thermostat for control of temperature.",
+                    "Connecting load 1K.W."
+                ]
+            },
+            {
+                id: 22,
+                name: "Gullotine Cutter",
+                model: "KRI-GC-10.20",
+                img: "image/22.png",
+                summary: "300mm width manual cutter for retreading materials.",
+                specs: [
+                    "Cutting capacity: 300mm width.",
+                    "Overall dimensions 2'x2'x1' Appx."
+                ]
+            },
+            {
+                id: 23,
+                name: "Tyre Changer Machine (Manual)",
+                model: "KRI-TC-16",
+                img: "image/23.png",
+                summary: "Pneumatically operated manual tyre changer.",
+                specs: [
+                    "Capacity Up-to 16\" tyre size.",
+                    "Dimension 3'x2'x2'.",
+                    "Pneumatically Operated.",
+                    "Provided with FRCL unit & hand leaver valve."
+                ]
+            },
+            {
+                id: 24,
+                name: "Tools, Rims & Flanges",
+                model: "ACCESSORIES",
+                img: "image/24.png",
+                summary: "Curing rims, envelop sealing flanges, and expandable rims.",
+                specs: [
+                    "CURING RIMS: Hydraulically pressed & light weight. Provided with spring loaded strong locks. Sizes available: 8\" to 24\". Provided with E.R.W. Welding.",
+                    "ENVELOP SEALING FLANGES: Hydraulically pressed & light weight. Sizes available: 8\" to 24\".",
+                    "EXPANDABLE RIM: Up-to tyre size 12\" to 24\". Available with 10 Segments & 12 Segments.",
+                    "Equipment Spare Parts Kit.",
+                    "Distribution Control Panel Board.",
+                    "Retreading Tools."
+                ]
+            }
+        ];
+
+        // Function to build the grid
+        function buildGrid() {
+            const grid = document.getElementById('machine-grid');
+            let html = '';
+            
+            machineData.forEach(machine => {
+                html += `
+                    <div class="card" onclick="openModal(${machine.id})">
+                        <div class="card-img-container">
+                            <img src="${machine.img}" alt="${machine.name}">
+                        </div>
+                        <div class="card-content">
+                            <h3>${machine.name}</h3>
+                            <h4>${machine.model}</h4>
+                            <p class="summary">${machine.summary}</p>
+                            <button class="btn-view">View Full Details</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            grid.innerHTML = html;
+        }
+
+        // Modal Logic
+        const modal = document.getElementById("machineModal");
+
+      function openModal(id) {
+            const machine = machineData.find(m => m.id === id);
+            if (!machine) return;
+
+            document.getElementById('modalImg').src = machine.img;
+            document.getElementById('modalTitle').innerText = machine.name;
+            document.getElementById('modalModel').innerText = `MODEL # ${machine.model}`;
+            
+            // Populate exact specs list
+            let listHtml = '';
+            machine.specs.forEach(spec => {
+                listHtml += `<li>${spec}</li>`;
+            });
+            document.getElementById('modalList').innerHTML = listHtml;
+
+            // --- PASTE THIS NEW LOGIC HERE ---
+            // Create a pre-filled message with the machine details
+            const message = `Hello, I am interested in the ${machine.name} (Model: ${machine.model}). Please provide more details.`;
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Set WhatsApp Link (Using main mobile number)
+            document.getElementById('btnWhatsapp').href = `https://wa.me/919812044530?text=${encodedMessage}`;
+            
+            // Set Email Link
+            document.getElementById('btnEmail').href = `mailto:kmtretind@gmail.com?subject=Inquiry: ${machine.name}&body=${encodedMessage}`;
+            
+            // Set SMS Link
+            document.getElementById('btnSms').href = `sms:+919812044530?body=${encodedMessage}`;
+            // ---------------------------------
+
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Initialize
+        buildGrid();
+    </script>
+</body>
+</html>
