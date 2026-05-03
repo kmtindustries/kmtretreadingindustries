@@ -568,15 +568,37 @@
     </section>
 
     <!-- Contact Section -->
+   <!-- Contact Section -->
     <section id="contact">
-        <div class="contact-container">
-            <div style="flex: 1;">
-                <h3 style="color: var(--secondary-color); margin-bottom: 20px;">Contact Us</h3>
+        <h2 class="section-title">Contact Us</h2>
+        <div class="contact-container" style="display: flex; flex-wrap: wrap; gap: 40px; background: var(--primary-color); color: var(--text-light); padding: 40px; border-radius: 8px; max-width: 1200px; margin: 0 auto;">
+            
+            <!-- Left Side: Contact Info -->
+            <div style="flex: 1; min-width: 300px;">
+                <h3 style="color: var(--secondary-color); margin-bottom: 20px;">Get In Touch</h3>
                 <p><strong>Factory & Office:</strong> Plot No. 31, HSIIDC Industrial Estate, Narwana-126116, Distt. Jind (Haryana) India</p>
-                <p><strong>Phone:</strong> +91-1684-240530, +91-98120-44530</p>
-                <p><strong>Mobile:</strong> +91-96713-14530, +91-97283-32000, +91-99964-21530</p>
-                <p><strong>Email:</strong> kmtretind@gmail.com</p>
+                <p style="margin-top: 10px;"><strong>Phone:</strong> +91-1684-240530, +91-98120-44530</p>
+                <p style="margin-top: 10px;"><strong>Mobile:</strong> +91-96713-14530, +91-97283-32000, +91-99964-21530</p>
+                <p style="margin-top: 10px;"><strong>Email:</strong> kmtretind@gmail.com</p>
+                
+                <!-- Quick Call Button for Mobile Users -->
+                <div style="margin-top: 25px;">
+                    <a href="tel:+919812044530" class="action-btn call-btn" style="display: inline-block; padding: 12px 25px;">📞 Call Us Now</a>
+                </div>
             </div>
+
+            <!-- Right Side: Message Box -->
+            <div style="flex: 1; min-width: 300px; background: #ffffff; padding: 25px; border-radius: 8px; color: var(--text-dark); box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                <h3 style="color: var(--primary-color); margin-bottom: 15px;">Send a Direct Message</h3>
+                
+                <textarea id="userCustomMessage" rows="5" placeholder="Type your inquiry here (e.g., I want to know the price of the Mini Rasper...)" style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; margin-bottom: 20px; font-family: inherit; resize: vertical;"></textarea>
+                
+                <div class="contact-buttons" style="display: flex; gap: 15px;">
+                    <button onclick="sendMainWhatsApp()" class="action-btn wa-btn" style="border: none; cursor: pointer; font-size: 1rem; flex: 1;">WhatsApp</button>
+                    <button onclick="sendMainEmail()" class="action-btn email-btn" style="border: none; cursor: pointer; font-size: 1rem; flex: 1;">Email</button>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -1037,6 +1059,26 @@
 
         // Modal Logic
         const modal = document.getElementById("machineModal");
+		
+		// --- MAIN CONTACT SECTION LOGIC ---
+        function getCustomMessage() {
+            // Get what the user typed, or use a default message if they left it blank
+            let msg = document.getElementById('userCustomMessage').value.trim();
+            if (msg === "") {
+                msg = "Hello K.M.T. Retreading Industries, I would like to request more information about your machinery.";
+            }
+            return encodeURIComponent(msg);
+        }
+
+        function sendMainWhatsApp() {
+            const text = getCustomMessage();
+            window.open(`https://wa.me/919812044530?text=${text}`, '_blank');
+        }
+
+        function sendMainEmail() {
+            const text = getCustomMessage();
+            window.location.href = `mailto:kmtretind@gmail.com?subject=Website Inquiry&body=${text}`;
+        }
 
       function openModal(id) {
             const machine = machineData.find(m => m.id === id);
