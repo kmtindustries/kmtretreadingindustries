@@ -57,7 +57,7 @@
         }
 
         /* About Image Placeholder */
-       .about-image {
+        .about-image {
             flex: 1;
             min-width: 300px;
             display: flex;
@@ -80,7 +80,6 @@
             background-color: var(--text-light);
             line-height: 1.6;
         }
-		
 
         /* Navigation */
         nav {
@@ -457,6 +456,7 @@
         .wa-btn { background-color: #25D366; } /* WhatsApp Green */
         .email-btn { background-color: #d44638; } /* Email Red */
         .sms-btn { background-color: #007bff; } /* SMS Blue */
+		.call-btn { background-color: #ff9800; }
 
         @media (max-width: 768px) {
             nav ul { display: none; }
@@ -539,6 +539,7 @@
                 <div class="modal-actions">
                     <h4 style="margin-top: 30px; margin-bottom: 15px; color: var(--primary-color);">Inquire about this machine:</h4>
                     <div class="contact-buttons">
+					   <a href="#" id="btnCall" class="action-btn call-btn">Call</a>
                         <a href="#" id="btnWhatsapp" class="action-btn wa-btn" target="_blank">WhatsApp</a>
                         <a href="#" id="btnEmail" class="action-btn email-btn">Email</a>
                         <a href="#" id="btnSms" class="action-btn sms-btn">SMS</a>
@@ -1065,6 +1066,9 @@
             
             // Set SMS Link
             document.getElementById('btnSms').href = `sms:+919812044530?body=${encodedMessage}`;
+			
+			
+			document.getElementById('btnCall').href = `tel:+919812044530`;
             // ---------------------------------
 
             modal.style.display = "block";
