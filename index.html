@@ -3,6 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="K.M.T. Retreading Industries is an ISO 9001:2015 certified pioneer in advanced tyre retreading plants, cold curing chambers, and machinery. Established 1995 in Narwana, India.">
+    <meta name="keywords" content="tyre retreading machinery, cold retreading plant, tyre curing chamber, tyre buffer, tyre builder, KMT retreading, Haryana machinery manufacturer">
+    <meta name="author" content="K.M.T. Retreading Industries">
+    
+    <meta property="og:title" content="K.M.T. Retreading Industries | Tyre Retreading Machinery">
+    <meta property="og:description" content="Manufacturer and exporter of high-quality tyre retreading equipment. Trusted by STUs and PSUs Pan-India.">
+    <meta property="og:image" content="image/15.jpeg">
+    <meta property="og:type" content="website">
+	
+	
+	
+	
+	
+	
+	
+	
+	
     <title>K.M.T. Retreading Industries | Tyre Retreading Plants & Machinery</title>
     <style>
         :root {
@@ -20,9 +37,9 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-		
-		header {
-            background-color: #2b8cbe; /* Solid blue matching your screenshot */
+        
+        header {
+            background-color: #2b8cbe;
             color: var(--text-light);
             text-align: center;
             padding: 100px 20px;
@@ -35,45 +52,58 @@
 
         header p {
             font-size: 1.2rem;
-            margin-bottom: 30px;
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
         }
 
+        .hero-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
         .btn {
-            background-color: var(--secondary-color); /* Yellow */
+            background-color: var(--secondary-color);
             color: var(--text-dark);
             padding: 12px 30px;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
             display: inline-block;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            border: 2px solid var(--secondary-color);
         }
 
         .btn:hover {
             background-color: #e6b800;
+            border-color: #e6b800;
         }
 
-        /* About Image Placeholder */
-        .about-image {
-            flex: 1;
-            min-width: 300px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* Removed the dashed border and placeholder background */
+        .btn-alt {
+            background-color: transparent;
+            color: var(--secondary-color);
         }
 
-        /* Makes the image responsive so it doesn't break your layout */
-        .about-image img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px; /* Adds nice rounded corners */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Adds a soft shadow */
-            border: 2px solid var(--primary-color); /* Optional: adds a blue border */
+        .btn-alt:hover {
+            background-color: var(--secondary-color);
+            color: var(--text-dark);
         }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #fff;
+            border-color: #fff;
+        }
+
+        .btn-outline:hover {
+            background-color: #fff;
+            color: var(--primary-color);
+        }
+
+     
 
         body {
             color: var(--text-dark);
@@ -142,11 +172,12 @@
         }
 
         /* About Section */
+     /* About Section */
         .about-content {
             display: flex;
             flex-wrap: wrap;
-            gap: 40px;
-            align-items: center;
+            gap: 60px; /* Reduced gap so the text isn't squeezed into a tall, skinny column */
+            align-items: center; /* Centers the image vertically next to the text */
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -154,17 +185,93 @@
         .about-text {
             flex: 1;
             min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-left: 25px; 
+            border-left: 4px solid var(--secondary-color); 
         }
 
         .about-text p {
-            margin-bottom: 15px;
-            text-align: justify;
+            margin-bottom: 20px;
+            color: #4a4a4a; 
+            font-size: 1.05rem;
+            line-height: 1.7;
+            text-align: left; 
+        }
+
+        .about-text p:first-of-type {
+            font-size: 1.15rem;
+            color: var(--primary-color);
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .about-text strong {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 1.15rem;
+            color: var(--text-dark);
+            letter-spacing: 0.5px;
+        }
+
+        .about-text strong::before {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+            margin-bottom: 10px;
+            border-radius: 2px;
+        }
+
+        /* About Image */
+        .about-image {
+            flex: 1.5; /* Makes the image take up 60% of the row width */
+            min-width: 350px;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 4 / 3; /* THE MAGIC FIX: Forces a wide rectangle shape forever! */
+            object-fit: cover;
+            object-position: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 2px solid var(--primary-color);
+        }
+
+        /* FILTER TABS */
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 2px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-tab.active, .filter-tab:hover {
+            background: var(--primary-color);
+            color: #fff;
         }
 
         /* Machine Grid */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 30px;
         }
 
@@ -200,6 +307,11 @@
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover .card-img-container img {
+            transform: scale(1.05);
         }
 
         .card-content {
@@ -294,6 +406,7 @@
             text-decoration: none;
         }
 
+        /* ZOOMABLE MODAL IMAGE */
         .modal-image {
             flex: 1;
             min-width: 300px;
@@ -303,11 +416,20 @@
             justify-content: center;
             align-items: center;
             border-right: 1px solid #eee;
+            position: relative;
+            overflow: hidden; /* Added for zoom containment */
         }
 
         .modal-image img {
             max-width: 100%;
-            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            transition: transform 0.3s ease; /* Added for smooth zoom */
+        }
+
+        .modal-image:hover img {
+            transform: scale(2.2); /* Zoom scale */
+            cursor: crosshair;
         }
 
         .modal-details {
@@ -353,57 +475,49 @@
             color: var(--primary-color);
         }
 
-        /* Separate Certifications Section */
-        .cert-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            background: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border: 2px solid var(--primary-color);
-            max-width: 1000px;
+        /* CERTIFICATIONS (REPLACED) */
+        #certifications {
+            background-color: #f8f6f1; /* Light paper color from previous */
+        }
+
+        .certs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        .cert-text {
-            text-align: left;
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .cert-text h3 {
-            color: var(--primary-color);
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .cert-text p {
-            margin-bottom: 10px;
-            font-weight: 500;
-            font-size: 1.1rem;
-            color: #444;
+        .cert-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 30px;
             display: flex;
-            align-items: center;
-            gap: 10px;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
         }
 
-        .cert-qr {
-            width: 150px;
-            height: 150px;
-            background: var(--bg-light);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 2px dashed var(--primary-color);
-            border-radius: 8px;
-            color: var(--primary-color);
-            font-weight: bold;
-            text-align: center;
+        .cert-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
         }
+
+        .cert-icon {
+            width: 60px; height: 60px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+        }
+
+        .cert-icon.iso { background: #e8f2fb; }
+        .cert-icon.tm { background: #fdf6e3; }
+        .cert-icon.export { background: #e8f7ec; }
+
+        .cert-card h3 { color: var(--primary-color); font-size: 1.3rem; }
+        .cert-card p { color: #555; font-size: 0.95rem; line-height: 1.6; }
 
         /* Contact Section */
         .contact-container {
@@ -425,7 +539,8 @@
             padding: 20px;
             font-size: 0.9rem;
         }
-		.modal-actions {
+        
+        .modal-actions {
             border-top: 1px solid #ddd;
             padding-top: 10px;
         }
@@ -450,27 +565,58 @@
 
         .action-btn:hover {
             opacity: 0.8;
-            color: #fff; /* Keep text white on hover */
+            color: #fff;
         }
 
-        .wa-btn { background-color: #25D366; } /* WhatsApp Green */
-        .email-btn { background-color: #d44638; } /* Email Red */
-        .sms-btn { background-color: #007bff; } /* SMS Blue */
-		.call-btn { background-color: #ff9800; }
+        .wa-btn { background-color: #25D366; } 
+        .email-btn { background-color: #d44638; } 
+        .sms-btn { background-color: #007bff; } 
+        .call-btn { background-color: #ff9800; }
 
         @media (max-width: 768px) {
             nav ul { display: none; }
+            .hero-actions { flex-direction: column; align-items: stretch; }
+            .hero-actions .btn { text-align: center; }
             .modal-content { flex-direction: column; }
             .modal-image { border-right: none; border-bottom: 1px solid #eee; padding: 20px;}
             .modal-details { padding: 20px; }
-            .cert-container { flex-direction: column; text-align: center; }
-            .cert-text { text-align: center; }
+            
+            
         }
+		
+		
     </style>
+	
+	
+	
+	
+	<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ManufacturingBusiness",
+      "name": "K.M.T. Retreading Industries",
+      "image": "image/15.jpeg",
+      "description": "Manufacturer of advanced tyre retreading plants and machinery.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Plot No. 31, HSIIDC Industrial Estate",
+        "addressLocality": "Narwana",
+        "addressRegion": "Haryana",
+        "postalCode": "126116",
+        "addressCountry": "IN"
+      },
+      "telephone": "+91-98120-44530",
+      "foundingDate": "1995",
+      "iso6523Code": "ISO 9001:2015"
+    }
+    </script>
+	
+	
+	
+	
 </head>
 <body>
 
-    <!-- Navigation -->
     <nav>
         <div class="logo">
             K.M.T. RETREADING INDUSTRIES
@@ -483,15 +629,17 @@
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
-	
-	<header id="home">
+    
+    <header id="home">
         <h1>Advanced Tyre Retreading Plants & Machinery</h1>
         <p>Providing high-quality retreading equipment, machinery spares, and exceptional after-sale services since 1995. Proudly recognized by the Government of India.</p>
-        <a href="#products" class="btn">Explore Our Machines</a>
+        <div class="hero-actions">
+            <a href="#products" class="btn">Explore Our Machines</a>
+            <a href="#contact" class="btn btn-alt">Get a Quote</a>
+            <a href="catalogue.pdf" class="btn btn-outline" target="_blank" download>⬇ Download Catalogue</a>
+        </div>
     </header>
 
-    <!-- About Section (Now the first section) -->
-  <!-- Replace your current #about section with this -->
     <section id="about">
         <h2 class="section-title">About K.M.T.</h2>
         <div class="about-content">
@@ -504,24 +652,26 @@
                 <strong>Kuldeep Kumar, Prop.</strong>
             </div>
             <div class="about-image">
-			
               <img src="image/15.jpeg" alt="K.M.T Image">
             </div>
         </div>
     </section>
 
-    <!-- Products Section -->
     <section id="products" class="bg-light">
-        <h2 class="section-title">Retreading Equipment Series</h2>
+        <h2 class="section-title" style="margin-bottom: 20px;">Retreading Equipment Series</h2>
         
-        <!-- The Grid -->
-        <div class="grid-container" id="machine-grid">
-            <!-- JavaScript will inject cards here -->
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">All</button>
+            <button class="filter-tab" data-filter="buffer">Buffers</button>
+            <button class="filter-tab" data-filter="builder">Builders</button>
+            <button class="filter-tab" data-filter="chamber">Chambers</button>
+            <button class="filter-tab" data-filter="other">Accessories</button>
         </div>
+        
+        <div class="grid-container" id="machine-grid">
+            </div>
     </section>
 
-    <!-- Full Details Modal -->
- <!-- Full Details Modal -->
     <div id="machineModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -532,48 +682,46 @@
                 <h2 id="modalTitle">Machine Name</h2>
                 <h3 id="modalModel">Model #</h3>
                 <ul id="modalList">
-                    <!-- Specs injected here -->
-                </ul>
+                    </ul>
                 
-                <!-- PASTE THIS NEW BLOCK HERE -->
                 <div class="modal-actions">
                     <h4 style="margin-top: 30px; margin-bottom: 15px; color: var(--primary-color);">Inquire about this machine:</h4>
                     <div class="contact-buttons">
-					   <a href="#" id="btnCall" class="action-btn call-btn">Call</a>
+                        <a href="#" id="btnCall" class="action-btn call-btn">Call</a>
                         <a href="#" id="btnWhatsapp" class="action-btn wa-btn" target="_blank">WhatsApp</a>
                         <a href="#" id="btnEmail" class="action-btn email-btn">Email</a>
                         <a href="#" id="btnSms" class="action-btn sms-btn">SMS</a>
                     </div>
                 </div>
-                <!-- END NEW BLOCK -->
-
             </div>
         </div>
     </div>
 
-    <!-- Separated Certifications Section -->
     <section id="certifications">
         <h2 class="section-title">Certifications & Awards</h2>
-        <div class="cert-container">
-            <div class="cert-text">
-                <h3>Government & Industry Recognition</h3>
-                <p>🏅 An ISO 9001:2015 Certified Organization</p>
-                <p>📜 Trade Marks Registry #2333779 Class 7</p>
-                <p>🌍 Recognized for excelling in the field of Exports</p>
+        <div class="certs-grid">
+            <div class="cert-card">
+                <div class="cert-icon iso">🏆</div>
+                <h3>ISO 9001:2015 Certified</h3>
+                <p>Our quality management system meets the internationally recognised ISO 9001:2015 standard, ensuring consistent, high-quality manufacturing processes.</p>
             </div>
-            <div class="cert-qr">
-                [Insert QR Code / Badge Image]
+            <div class="cert-card">
+                <div class="cert-icon tm">📜</div>
+                <h3>Registered Trade Mark</h3>
+                <p>Trade Marks Registry #2333779 Class 7 — our brand is officially protected and recognised, standing as a mark of authenticity.</p>
+            </div>
+            <div class="cert-card">
+                <div class="cert-icon export">🌍</div>
+                <h3>Export Excellence</h3>
+                <p>Recognised by the Government of India for excelling in the field of exports, and the first machinery maker from Narwana to enter international markets.</p>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-   <!-- Contact Section -->
     <section id="contact">
         <h2 class="section-title">Contact Us</h2>
         <div class="contact-container" style="display: flex; flex-wrap: wrap; gap: 40px; background: var(--primary-color); color: var(--text-light); padding: 40px; border-radius: 8px; max-width: 1200px; margin: 0 auto;">
             
-            <!-- Left Side: Contact Info -->
             <div style="flex: 1; min-width: 300px;">
                 <h3 style="color: var(--secondary-color); margin-bottom: 20px;">Get In Touch</h3>
                 <p><strong>Factory & Office:</strong> Plot No. 31, HSIIDC Industrial Estate, Narwana-126116, Distt. Jind (Haryana) India</p>
@@ -581,13 +729,11 @@
                 <p style="margin-top: 10px;"><strong>Mobile:</strong> +91-96713-14530, +91-97283-32000, +91-99964-21530</p>
                 <p style="margin-top: 10px;"><strong>Email:</strong> kmtretind@gmail.com</p>
                 
-                <!-- Quick Call Button for Mobile Users -->
                 <div style="margin-top: 25px;">
                     <a href="tel:+919812044530" class="action-btn call-btn" style="display: inline-block; padding: 12px 25px;">📞 Call Us Now</a>
                 </div>
             </div>
 
-            <!-- Right Side: Message Box -->
             <div style="flex: 1; min-width: 300px; background: #ffffff; padding: 25px; border-radius: 8px; color: var(--text-dark); box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
                 <h3 style="color: var(--primary-color); margin-bottom: 15px;">Send a Direct Message</h3>
                 
@@ -606,15 +752,11 @@
         <p>&copy; 2026 K.M.T. Retreading Industries. All Rights Reserved.</p>
     </footer>
 
-    <!-- Interactive JavaScript -->
     <script>
         // Database of all machines and full specifications from your catalog
         const machineData = [
             {
-                id: 1,
-                name: "Buffer",
-                model: "KRI-BF-10.20",
-                img: "image/1.png",
+                id: 1, name: "Buffer", model: "KRI-BF-10.20", img: "image/1.png", category: "buffer",
                 summary: "10.20 tyre size buffer with 7.5 H.P motor and pneumatic brake.",
                 specs: [
                     "Capacity: 10.20 tyre size.",
@@ -632,10 +774,7 @@
                 ]
             },
             {
-                id: 2,
-                name: "Builder",
-                model: "KRI-BD-10.20",
-                img: "image/2.png",
+                id: 2, name: "Builder", model: "KRI-BD-10.20", img: "image/2.png", category: "builder",
                 summary: "Upto 10.20 tyre size builder with zero air entrapment stitcher wheels.",
                 specs: [
                     "Capacity: upto 10.20 tyre size.",
@@ -651,10 +790,7 @@
                 ]
             },
             {
-                id: 3,
-                name: "Buffer (Expandable)",
-                model: "KRI-BF-10.20",
-                img: "image/3.png",
+                id: 3, name: "Buffer (Expandable)", model: "KRI-BF-10.20", img: "image/3.png", category: "buffer",
                 summary: "Expandable buffer for 10.20 tyre size with 7.5 HP motor.",
                 specs: [
                     "Capacity: 10.20 tyre size.",
@@ -672,10 +808,7 @@
                 ]
             },
             {
-                id: 4,
-                name: "Builder (Expandable)",
-                model: "KRI-BD-10.20",
-                img: "image/4.jpg.jpeg",
+                id: 4, name: "Builder (Expandable)", model: "KRI-BD-10.20", img: "image/4.jpg.jpeg", category: "builder",
                 summary: "Builder featuring an expandable hub and pneumatic tread cutter.",
                 specs: [
                     "Capacity: upto 10.20 tyre size.",
@@ -691,10 +824,7 @@
                 ]
             },
             {
-                id: 5,
-                name: "Buffer (OTR)",
-                model: "KRI-BF-14.25",
-                img: "image/5.png",
+                id: 5, name: "Buffer (OTR)", model: "KRI-BF-14.25", img: "image/5.png", category: "buffer",
                 summary: "Heavy-duty OTR buffer upto 14.25 tyre size with 10 H.P. motor.",
                 specs: [
                     "Capacity Upto 14.25 tyre size.",
@@ -717,10 +847,7 @@
                 ]
             },
             {
-                id: 6,
-                name: "Builder (OTR)",
-                model: "KRI-KBD-14.25",
-                img: "image/6.png",
+                id: 6, name: "Builder (OTR)", model: "KRI-KBD-14.25", img: "image/6.png", category: "builder",
                 summary: "OTR Builder with movable/fixed chucks and adjustable stitcher wheels.",
                 specs: [
                     "Capacity: Upto 14.25 tyre size.",
@@ -736,10 +863,7 @@
                 ]
             },
             {
-                id: 7,
-                name: "Mini Rasper",
-                model: "KRI-MRS-11.20",
-                img: "image/7.png",
+                id: 7, name: "Mini Rasper", model: "KRI-MRS-11.20", img: "image/7.png", category: "buffer",
                 summary: "11.20 tyre capacity with 10 H.P buffing motor and inbuilt tyre lift.",
                 specs: [
                     "Capacity: 11.20 tyre size.",
@@ -760,10 +884,7 @@
                 ]
             },
             {
-                id: 8,
-                name: "Mini Rasper (Expandable)",
-                model: "KRI-MRS-12.20",
-                img: "image/8.png",
+                id: 8, name: "Mini Rasper (Expandable)", model: "KRI-MRS-12.20", img: "image/8.png", category: "buffer",
                 summary: "12.20 tyre capacity expandable mini rasper with 12\"-24\" rim.",
                 specs: [
                     "Capacity: 12.20 tyre size.",
@@ -785,10 +906,7 @@
                 ]
             },
             {
-                id: 9,
-                name: "Inspection Spreader",
-                model: "KRI-IS-10.20",
-                img: "image/9.png",
+                id: 9, name: "Inspection Spreader", model: "KRI-IS-10.20", img: "image/9.png", category: "other",
                 summary: "Pneumatic tyre inspection with 4 lights and floor-to-jaw lift.",
                 specs: [
                     "Pneumatically air operated.",
@@ -802,10 +920,7 @@
                 ]
             },
             {
-                id: 10,
-                name: "Repair Spreader",
-                model: "KRI-IS-10.20",
-                img: "image/10.png",
+                id: 10, name: "Repair Spreader", model: "KRI-IS-10.20", img: "image/10.png", category: "other",
                 summary: "Compact pneumatic repair spreader for upto 10.00-20 tyre size.",
                 specs: [
                     "Pneumatically air operated.",
@@ -818,10 +933,7 @@
                 ]
             },
             {
-                id: 11,
-                name: "Cold Curing Chamber (Standard)",
-                model: "KRI-CCC-4/5/7/11/14-12.20",
-                img: "image/11.png",
+                id: 11, name: "Cold Curing Chamber (Standard)", model: "KRI-CCC-4/5/7/11/14-12.20", img: "image/11.png", category: "chamber",
                 summary: "High-capacity insulated curing chambers with pneumatic doors.",
                 specs: [
                     "Available capacities: 4, 5, 7, 11, or 14 tyres of 10.00-20 + 1 tyre of LTV.",
@@ -843,10 +955,7 @@
                 ]
             },
             {
-                id: 12,
-                name: "Cold Curing Chamber (Pin Type)",
-                model: "KRI-CCC-3-11.20",
-                img: "image/12.png",
+                id: 12, name: "Cold Curing Chamber (Pin Type)", model: "KRI-CCC-3-11.20", img: "image/12.png", category: "chamber",
                 summary: "Insulated 3-tyre curing chamber with round heaters and pin-type door.",
                 specs: [
                     "Capacity: Upto 11.20 tyre size (3 tyres of 10.00-20 + 1 tyre of LTV size).",
@@ -864,10 +973,7 @@
                 ]
             },
             {
-                id: 13,
-                name: "Cold Curing Chamber (Pneumatic Door)",
-                model: "KRI-CCC-3-11.20",
-                img: "image/13.png",
+                id: 13, name: "Cold Curing Chamber (Pneumatic Door)", model: "KRI-CCC-3-11.20", img: "image/13.png", category: "chamber",
                 summary: "3-tyre chamber featuring a pneumatic door and inbuilt tyre lift.",
                 specs: [
                     "Capacity: Upto 11.20 tyre size (3 tyres of 10.00-20 + 1 tyre of LTV size).",
@@ -886,10 +992,7 @@
                 ]
             },
             {
-                id: 14,
-                name: "Electric Cut Vulcanizing Machine",
-                model: "KRI-ECV-32",
-                img: "image/14.png",
+                id: 14, name: "Electric Cut Vulcanizing Machine", model: "KRI-ECV-32", img: "image/14.png", category: "other",
                 summary: "Vulcanizing machine up to 12.20 tyre size with air heaters.",
                 specs: [
                     "Capacity Up-to 12.20 tyre size.",
@@ -901,10 +1004,7 @@
                 ]
             },
             {
-                id: 15,
-                name: "Electric Cut Vulcanizing Machine (OTR)",
-                model: "KRI-ECV-52",
-                img: "image/15.png",
+                id: 15, name: "Electric Cut Vulcanizing Machine (OTR)", model: "KRI-ECV-52", img: "image/18.png", category: "other",
                 summary: "Heavy-duty OTR vulcanizer up to 14.25 tyre size.",
                 specs: [
                     "Capacity Up-to 14.25 tyre size.",
@@ -916,10 +1016,7 @@
                 ]
             },
             {
-                id: 16,
-                name: "Mono Rail",
-                model: "KRI-MR-7-12.20",
-                img: "image/16.png",
+                id: 16, name: "Mono Rail", model: "KRI-MR-7-12.20", img: "image/16.png", category: "other",
                 summary: "Capable of holding 14 tyres at a time for easy chamber loading.",
                 specs: [
                     "Capacity: 12.20 tyre size.",
@@ -930,10 +1027,7 @@
                 ]
             },
             {
-                id: 17,
-                name: "Mobile Type Lift",
-                model: "KRI-TL-10.20",
-                img: "image/17.png",
+                id: 17, name: "Mobile Type Lift", model: "KRI-TL-10.20", img: "image/17.png", category: "other",
                 summary: "Movable pneumatic lift for heavy rimmed tyres.",
                 specs: [
                     "Movable lift for lifting of rimmed tyres.",
@@ -944,10 +1038,7 @@
                 ]
             },
             {
-                id: 18,
-                name: "Skiving Stand",
-                model: "KRI-SS-4-10.00-20",
-                img: "image/18.png",
+                id: 18, name: "Skiving Stand", model: "KRI-SS-4-10.00-20", img: "image/18.png", category: "other",
                 summary: "Sturdy stand holding up to 4 tyres for skiving work.",
                 specs: [
                     "Capacity upto 10.00-20 tyre size.",
@@ -956,10 +1047,7 @@
                 ]
             },
             {
-                id: 19,
-                name: "Skiving Motor",
-                model: "KRI-FSB",
-                img: "image/19.png",
+                id: 19, name: "Skiving Motor", model: "KRI-FSB", img: "image/19.png", category: "other",
                 summary: "Trolley-mounted balanced rotor motor for skiving.",
                 specs: [
                     "An efficient equipment for doing the skiving work.",
@@ -969,10 +1057,7 @@
                 ]
             },
             {
-                id: 20,
-                name: "Envelopure Expander",
-                model: "KRI-EE-12.20",
-                img: "image/20.png",
+                id: 20, name: "Envelopure Expander", model: "KRI-EE-12.20", img: "image/20.png", category: "other",
                 summary: "Pneumatic tyre lift expander for 12.20 tyre sizes.",
                 specs: [
                     "Provided with tyre lift Pneumatical operated.",
@@ -981,10 +1066,7 @@
                 ]
             },
             {
-                id: 21,
-                name: "Warming Tray",
-                model: "KRI-WT",
-                img: "image/21.png",
+                id: 21, name: "Warming Tray", model: "KRI-WT", img: "image/21.png", category: "other",
                 summary: "Thermostat-controlled device for heating repair gum.",
                 specs: [
                     "An excellent device for heating of repair gum to be used for filling.",
@@ -993,10 +1075,7 @@
                 ]
             },
             {
-                id: 22,
-                name: "Gullotine Cutter",
-                model: "KRI-GC-10.20",
-                img: "image/22.png",
+                id: 22, name: "Gullotine Cutter", model: "KRI-GC-10.20", img: "image/22.png", category: "other",
                 summary: "300mm width manual cutter for retreading materials.",
                 specs: [
                     "Cutting capacity: 300mm width.",
@@ -1004,10 +1083,7 @@
                 ]
             },
             {
-                id: 23,
-                name: "Tyre Changer Machine (Manual)",
-                model: "KRI-TC-16",
-                img: "image/23.png",
+                id: 23, name: "Tyre Changer Machine (Manual)", model: "KRI-TC-16", img: "image/23.png", category: "other",
                 summary: "Pneumatically operated manual tyre changer.",
                 specs: [
                     "Capacity Up-to 16\" tyre size.",
@@ -1017,10 +1093,7 @@
                 ]
             },
             {
-                id: 24,
-                name: "Tools, Rims & Flanges",
-                model: "ACCESSORIES",
-                img: "image/24.png",
+                id: 24, name: "Tools, Rims & Flanges", model: "ACCESSORIES", img: "image/24.png", category: "other",
                 summary: "Curing rims, envelop sealing flanges, and expandable rims.",
                 specs: [
                     "CURING RIMS: Hydraulically pressed & light weight. Provided with spring loaded strong locks. Sizes available: 8\" to 24\". Provided with E.R.W. Welding.",
@@ -1034,15 +1107,16 @@
         ];
 
         // Function to build the grid
-        function buildGrid() {
+        function buildGrid(filter = 'all') {
             const grid = document.getElementById('machine-grid');
-            let html = '';
+            const filteredData = filter === 'all' ? machineData : machineData.filter(m => m.category === filter);
             
-            machineData.forEach(machine => {
+            let html = '';
+            filteredData.forEach(machine => {
                 html += `
                     <div class="card" onclick="openModal(${machine.id})">
                         <div class="card-img-container">
-                            <img src="${machine.img}" alt="${machine.name}">
+                            <img src="${machine.img}" alt="${machine.name}" loading="lazy">
                         </div>
                         <div class="card-content">
                             <h3>${machine.name}</h3>
@@ -1053,16 +1127,37 @@
                     </div>
                 `;
             });
-            
             grid.innerHTML = html;
         }
 
+        // Filter Logic
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                buildGrid(tab.dataset.filter);
+            });
+        });
+
         // Modal Logic
         const modal = document.getElementById("machineModal");
-		
-		// --- MAIN CONTACT SECTION LOGIC ---
+        const modalImgPanel = document.querySelector('.modal-image');
+        const modalImgTarget = document.getElementById('modalImg');
+        
+        // Modal Zoom Pan logic
+        modalImgPanel.addEventListener('mousemove', (e) => {
+            const rect = modalImgPanel.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            modalImgTarget.style.transformOrigin = `${x}% ${y}%`;
+        });
+
+        modalImgPanel.addEventListener('mouseleave', () => {
+            modalImgTarget.style.transformOrigin = 'center center';
+        });
+
+        // --- MAIN CONTACT SECTION LOGIC ---
         function getCustomMessage() {
-            // Get what the user typed, or use a default message if they left it blank
             let msg = document.getElementById('userCustomMessage').value.trim();
             if (msg === "") {
                 msg = "Hello K.M.T. Retreading Industries, I would like to request more information about your machinery.";
@@ -1080,7 +1175,7 @@
             window.location.href = `mailto:kmtretind@gmail.com?subject=Website Inquiry&body=${text}`;
         }
 
-      function openModal(id) {
+        function openModal(id) {
             const machine = machineData.find(m => m.id === id);
             if (!machine) return;
 
@@ -1095,37 +1190,33 @@
             });
             document.getElementById('modalList').innerHTML = listHtml;
 
-            // --- PASTE THIS NEW LOGIC HERE ---
-            // Create a pre-filled message with the machine details
             const message = `Hello, I am interested in the ${machine.name} (Model: ${machine.model}). Please provide more details.`;
             const encodedMessage = encodeURIComponent(message);
             
-            // Set WhatsApp Link (Using main mobile number)
             document.getElementById('btnWhatsapp').href = `https://wa.me/919812044530?text=${encodedMessage}`;
-            
-            // Set Email Link
             document.getElementById('btnEmail').href = `mailto:kmtretind@gmail.com?subject=Inquiry: ${machine.name}&body=${encodedMessage}`;
-            
-            // Set SMS Link
             document.getElementById('btnSms').href = `sms:+919812044530?body=${encodedMessage}`;
-			
-			
-			document.getElementById('btnCall').href = `tel:+919812044530`;
-            // ---------------------------------
+            document.getElementById('btnCall').href = `tel:+919812044530`;
 
             modal.style.display = "block";
+            document.body.style.overflow = "hidden"; // Prevent background scrolling
         }
 
         function closeModal() {
             modal.style.display = "none";
+            document.body.style.overflow = ""; // Restore scrolling
         }
 
-        // Close modal when clicking outside of it
         window.onclick = function(event) {
             if (event.target == modal) {
-                modal.style.display = "none";
+                closeModal();
             }
         }
+        
+        // Escape key to close modal
+        document.addEventListener('keydown', e => { 
+            if (e.key === 'Escape') closeModal(); 
+        });
 
         // Initialize
         buildGrid();
