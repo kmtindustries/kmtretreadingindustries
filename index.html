@@ -129,23 +129,24 @@ nav ul a:hover::after { width: 100%; }
 
 /* ─── HERO & ABOUT MERGED ─── */
 .hero {
-  min-height: 92vh;
+  /* Removed min-height so it wraps the content perfectly */
   display: grid;
-  grid-template-columns: 1.4fr 1.9fr;  /* 1.4fr gives more space to text, 0.6fr reduces image width */
-  align-items: center;
-  gap: 3%; 
-  padding: 2rem 2% 2rem 0; /* This sets: Top 2rem, Right 7%, Bottom 2rem, Left 0 */
+  grid-template-columns: 1.8fr 1.9fr;
+  align-items: stretch; /* This forces both columns to be the exact same height */
+  gap: 3%;
+  padding: 4rem 2% 4rem 0; /* Added a bit more top/bottom padding for breathing room */
   overflow: hidden;
   position: relative;
 }
 
 .hero-right {
   position: relative;
-  height: 80vh; /* Changed from 100% so it floats away from top/bottom edges */
+  height: 100%; /* Fills the height of the left column perfectly */
+  min-height: 480px; /* Just a safety net so it doesn't get too small */
   background: var(--paper-2);
   overflow: hidden;
-  border-radius: 24px; /* Rounds all the corners */
-  box-shadow: var(--shadow-lg); /* Optional: adds a nice soft shadow behind the image */
+  border-radius: 24px; 
+  box-shadow: var(--shadow-lg); 
 }
 
 .hero-left {
@@ -221,7 +222,7 @@ nav ul a:hover::after { width: 100%; }
 
 .stat-num {
   font-family: 'Fraunces', serif;
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 600;
   color: var(--ink);
   line-height: 1;
@@ -275,13 +276,6 @@ nav ul a:hover::after { width: 100%; }
 
 .btn-ghost:hover { border-color: var(--ink-3); background: var(--paper-2); }
 
-.hero-right {
-  position: relative;
-  height: 100%;
-  min-height: 92vh;
-  background: var(--paper-2);
-  overflow: hidden;
-}
 
 .hero-img-wrapper {
   position: absolute;
@@ -328,6 +322,52 @@ nav ul a:hover::after { width: 100%; }
   gap: 0.75rem;
   border: 1px solid var(--paper-3);
   z-index: 2;
+}
+/* ─── HERO SLIDER ─── */
+.hero-img-wrapper .hero-slide {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  /* Adds a smooth crossfade and a subtle premium zoom-out effect */
+  transition: opacity 1s ease-in-out, transform 4s ease-out;
+  transform: scale(1.05); 
+}
+
+.hero-img-wrapper .hero-slide.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.hero-indicators {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  display: flex;
+  gap: 0.6rem;
+  z-index: 10;
+}
+
+.hero-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.hero-dot:hover { background: rgba(255, 255, 255, 0.8); }
+
+.hero-dot.active {
+  background: var(--accent);
+  border-color: var(--white);
+  transform: scale(1.2);
+}
+
+@media (max-width: 900px) {
+  .hero-indicators { bottom: 20px; right: 20px; }
 }
 
 .badge-icon {
@@ -591,6 +631,55 @@ section {
   overflow: hidden;
 }
 
+.img-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(15, 17, 23, 0.2);
+  color: var(--white);
+  border: none;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 10; /* Ensures it stays above the zoomed image */
+  display: none; /* Hidden by default, shown via JS if >1 image */
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.2s;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.img-nav-btn:hover { 
+  background: var(--accent); 
+  transform: translateY(-50%) scale(1.1); 
+}
+
+.prev-btn { left: 1rem; }
+.next-btn { right: 1rem; }
+
+.img-indicators {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+.img-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(15, 17, 23, 0.2);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.img-dot:hover { background: rgba(15, 17, 23, 0.5); }
+.img-dot.active { background: var(--accent); transform: scale(1.3); }
+
 .modal-img-panel img {
   max-width: 100%;
   max-height: 300px;
@@ -599,9 +688,14 @@ section {
   transition: transform 0.3s ease; 
 }
 
-.modal-img-panel:hover img {
-  transform: scale(2.2); /* Adjust this number to zoom in more or less */
-  cursor: crosshair;
+/* Only zoom when hovering directly over the image, not the buttons */
+.modal-img-panel img {
+  cursor: zoom-in;
+}
+
+.modal-img-panel img.zoomed {
+  transform: scale(2.5); 
+  cursor: zoom-out;
 }
 
 .modal-info-panel {
@@ -913,7 +1007,11 @@ footer {
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero { grid-template-columns: 1fr; min-height: auto; padding: 0; }
+  .hero-left { padding: 2rem 5%; } /* Fixes the padding on mobile */
+  .hero-stats { flex-wrap: wrap; gap: 1.5rem; } /* Allows stats to wrap */
+  .stat { flex: 1 1 40%; } /* Makes stats a nice 2x2 grid */
+  
   .hero-right { min-height: 340px; }
   .hero-iso-badge { bottom: 20px; left: 20px; }
   .machine-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
@@ -974,12 +1072,16 @@ footer {
         <span class="stat-label">Years Active</span>
       </div>
       <div class="stat">
-        <span class="stat-num">Specialized</span>
-        <span class="stat-label">Machine Lineup</span>
+        <span class="stat-num">Specialized Machines</span>
+        <span class="stat-label">Global Quality Standards</span>
       </div>
       <div class="stat">
-        <span class="stat-num">Pan-India</span>
-        <span class="stat-label">STU / PSU Supply</span>
+        <span class="stat-num">Global Presence</span>
+        <span class="stat-label">Truested internationally</span>
+      </div>
+	  <div class="stat">
+        <span class="stat-num">STU / PSU Supply</span>
+        <span class="stat-label"></span>
       </div>
     </div>
     <div class="hero-actions">
@@ -988,19 +1090,18 @@ footer {
       <a href="catalogue.pdf" class="btn-ghost" target="_blank" download>⬇ Download Catalogue</a>
     </div>
   </div>
-  <div class="hero-right">
-    <div class="hero-img-wrapper">
-      <img src="image/15.jpeg" alt="KMT Machinery">
-    </div>
-    <div class="hero-overlay"></div>
-    <div class="hero-iso-badge">
-      <div class="badge-icon">🏅</div>
-      <div class="badge-text">
-        <strong>ISO 9001:2015</strong>
-        <span>Certified Organisation</span>
-      </div>
-    </div>
+<div class="hero-right">
+  <div class="hero-img-wrapper" id="heroSlider">
+    <!-- Add your hero images here. The first one gets the 'active' class -->
+    <img src="image/15.jpeg" alt="KMT Machinery" class="hero-slide active">
+    <img src="image/11.png" alt="Curing Chamber" class="hero-slide">
+    <img src="image/1.png" alt="Buffer Machine" class="hero-slide">
   </div>
+  <div class="hero-overlay"></div>
+  
+  <!-- Navigation dots for the hero slider -->
+  <div class="hero-indicators" id="heroIndicators"></div>
+</div>
 </section>
 
 <!-- PRODUCTS -->
@@ -1027,9 +1128,14 @@ footer {
 <div class="modal-overlay" id="machineModal">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="modal-img-panel">
+	
+   <div class="modal-img-panel" id="modalImgPanel">
+      <button class="img-nav-btn prev-btn" onclick="prevImage(event)">&#10094;</button>
       <img id="modalImg" src="" alt="">
+      <button class="img-nav-btn next-btn" onclick="nextImage(event)">&#10095;</button>
+      <div class="img-indicators" id="imgIndicators"></div>
     </div>
+	
     <div class="modal-info-panel">
       <div class="modal-model" id="modalModel"></div>
       <h2 class="modal-title" id="modalTitle"></h2>
@@ -1037,12 +1143,24 @@ footer {
       <ul class="specs-list" id="modalList"></ul>
       <div class="modal-divider"></div>
       <div class="modal-contact-label">Enquire about this machine</div>
-      <div class="modal-btns">
-        <a href="#" id="btnCall" class="mdbtn mdbtn-call">📞 Call</a>
-        <a href="#" id="btnWhatsapp" class="mdbtn mdbtn-wa" target="_blank">💬 WhatsApp</a>
-        <a href="#" id="btnEmail" class="mdbtn mdbtn-email">✉ Email</a>
-        <a href="#" id="btnSms" class="mdbtn mdbtn-sms">📱 SMS</a>
-      </div>
+    <div class="modal-btns">
+  <a href="#" id="btnCall" class="mdbtn mdbtn-call">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+    Call
+  </a>
+  <a href="#" id="btnWhatsapp" class="mdbtn mdbtn-wa" target="_blank">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+    WhatsApp
+  </a>
+  <a href="#" id="btnEmail" class="mdbtn mdbtn-email">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    Email
+  </a>
+  <a href="#" id="btnSms" class="mdbtn mdbtn-sms">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+    SMS
+  </a>
+</div>
     </div>
   </div>
 </div>
@@ -1128,80 +1246,360 @@ footer {
 </footer>
 
 <script>
-const machineData = [
-  { id:1, name:"Buffer", model:"KRI-BF-10.20", img:"image/1.png", category:"buffer",
-    summary:"10.20 tyre size buffer with 7.5 H.P motor and pneumatic brake.",
-    specs:["Capacity: 10.20 tyre size.","Provided with 7.5 H.P motor for buffing.","Shoulder trimming facility.","Forward & Reverse Buffing Facility.","Pneumatic brake for rotary table & rasp stand.","Heavy section 3H.P Blower for buffer dust.","Air blow Gun for air blowing purpose as required.","Specially designed rasp Hub assembly & blades for uninterrupted working.","Motorised table slide movement with 0.5HP motor.","Overall dimensions 6'x6'x6' Appx.","Air Consumption: 10 cfm at 125 Psi: 50 cfm at 125Psi while inflation.","Connected load 9.37 K.W."] },
-  { id:2, name:"Builder", model:"KRI-BD-10.20", img:"image/2.png", category:"builder",
-    summary:"Upto 10.20 tyre size builder with zero air entrapment stitcher wheels.",
-    specs:["Capacity: upto 10.20 tyre size.","Foot switch operated tyre drive.","Provided with leak proof chucks.","Specially designed sticher wheels, moving on linear wheels, for zero air entrapment.","Forward & reverse tyre drive motion.","Provided with Pneumatic tread cutter.","Safeties for high inflation Pressure.","Overall Dimensions 5'x5'x5' Appx.","Air consumption 10cfm at 125psi intermittent: 50cfm at 125 psi while inflation.","Connected load: 0.38 KW."] },
-  { id:3, name:"Buffer (Expandable)", model:"KRI-BF-10.20", img:"image/3.png", category:"buffer",
-    summary:"Expandable buffer for 10.20 tyre size with 7.5 HP motor.",
-    specs:["Capacity: 10.20 tyre size.","Provided with 7.5 H.P motor for buffing.","Shoulder trimming facility.","Forward Buffing Facility.","Pneumatic brake for rotary table & rasp stand.","Heavy section 3H.P Blower for buffer dust.","Air blow Gun for air blowing purpose as required.","Specially designed rasp Hub assembly & blades for uninterrupted working.","Motorised table slide movement with 0.5HP motor.","Overall dimensions 6'x6'x6' Appx.","Air Consumption: 10 cfm at 125 Psi: 50 cfm at 125Psi while inflation.","Connected load 8.87 K.W."] },
-  { id:4, name:"Builder (Expandable)", model:"KRI-BD-10.20", img:"image/4.jpg.jpeg", category:"builder",
-    summary:"Builder featuring an expandable hub and pneumatic tread cutter.",
-    specs:["Capacity: upto 10.20 tyre size.","Foot switch operated tyre drive.","Provided with Expandable hub.","Specially designed sticher wheels, moving on linear wheels, for zero air entrapment.","Forward & reverse tyre drive motion.","Provided with Pneumatic tread cutter.","Safeties for high inflation Pressure.","Overall Dimensions 5'x5'x5' Appx.","Air consumption 10cfm at 125psi intermittent: 50cfm at 125 psi while inflation.","Connected load: 0.38 KW."] },
-  { id:5, name:"Buffer (OTR)", model:"KRI-BF-14.25", img:"image/5.png", category:"buffer",
-    summary:"Heavy-duty OTR buffer upto 14.25 tyre size with 10 H.P. motor.",
-    specs:["Capacity Upto 14.25 tyre size.","Provided with one fixed & one movable chuck.","10 H.P. motor for buffing.","Pneumatically operated inbuilt tyre lift for lifting of tyre from the floor to the chuck.","Tread measuring device for easy measurement of circumference.","Shoulder trimming facility & Forward/reverse buffing facility.","Device for measuring shoulder trimming width.","Rasp blades sharpening attachment.","Pneumatic brake for rotary table & rasp stand.","Heavy suction 3 H.P. blower for buffer dust & Air blow gun.","Air jets for buffer dust cleaning at side roil & lead screw.","Specially designed rasp hub assembly & blades for uninterrupted working.","Motorised table slide movement with 0.5 H.P. motor.","Overall Dimensions: 7'x8'x9' Appx.","Air consumption: 10cfm at 125psi: 50cfm at 125psi, while inflation.","Connected load: 15.5 KW.","OPTIONAL - Provided with tractor tyre attachment with 7.5 H.P. Motor."] },
-  { id:6, name:"Builder (OTR)", model:"KRI-KBD-14.25", img:"image/6.png", category:"builder",
-    summary:"OTR Builder with movable/fixed chucks and adjustable stitcher wheels.",
-    specs:["Capacity: Upto 14.25 tyre size.","Foot switch operated tyre drive control.","Provide with one movable & one fixed chuck.","Pneumatic tyre lift for lifting of tyre from the floor to the desired level between the chucks.","Specially designed stitcher wheels, moving on linear bearings for zero air entrapment.","Adjustable stitcher wheels linear speed.","Forward & reverse tyre drive motion.","Overall Dimensions: 6'x5'x7' Appx.","Air consumption: 10cfm at 125psi Intermittent: 50cfm at 125psi while inflation.","Connected load: 0.38 KW."] },
-  { id:7, name:"Mini Rasper", model:"KRI-MRS-11.20", img:"image/7.png", category:"buffer",
-    summary:"11.20 tyre capacity with 10 H.P buffing motor and inbuilt tyre lift.",
-    specs:["Capacity: 11.20 tyre size.","Provided with 10 H.P motor for buffing.","Pneumatically operated inbuilt tyre lift for lifting of tyre from the floor to chuck.","Shoulder trimming facility provided.","Forward & reverse buffing facility provided.","Pneumatic brake for rotary table & rasp stand.","Heavy section 3 H.P blower for buffer dust.","Air blow gun for air blowing purpose as required.","Specially designed rasp hub assembly & blades for uninterrupted working.","Motorised table slide motion with 0.5 H.P motor.","Foot switch operated tyre drive control.","Overall Dimensions: 6'x6'x7' Appx.","Air pressure required: 10kg/cm2.","Air consumption: 40cfm at 100psi, while inflation.","Connected load: 11.37 K.W."] },
-  { id:8, name:"Mini Rasper (Expandable)", model:"KRI-MRS-12.20", img:"image/8.png", category:"buffer",
-    summary:"12.20 tyre capacity expandable mini rasper with 12\"-24\" rim.",
-    specs:["Capacity: 12.20 tyre size.","Provided with 10 H.P motor for buffing.","Pneumatically operated inbuilt tyre lift for lifting of tyre from the floor to expandable rim.","Shoulder trimming facility provided.","Forward & reverse buffing facility provided.","Pneumatic brake for rotary table & rasp stand.","Heavy section 3 H.P blower for buffer dust.","Air blow gun for air blowing purpose as required.","Specially designed rasp hub assembly & blades for uninterrupted working.","Motorised table slide motion with 0.5 H.P motor.","Foot switch operated tyre drive control.","Overall Dimensions: 6'x6'x7' Appx.","Air pressure required: 10kg/cm2.","Air consumption: 40cfm at 100psi, while inflation.","Connected load: 11.37 K.W.","EXPANDABLE RIM UP-TO TYRE SIZE 12\" TO 24\" (Available with 10 Segments & 12 Segments)."] },
-  { id:9, name:"Inspection Spreader", model:"KRI-IS-10.20", img:"image/9.png", category:"other",
-    summary:"Pneumatic tyre inspection with 4 lights and floor-to-jaw lift.",
-    specs:["Pneumatically air operated.","Capacity to inspect 10.00-20 tyre size.","Provided with 4 lights for clear vision.","Provided with tyre lift for lifting of tyre from the floor to the gripping jaws.","Multi angular bead hooks for firm gripping of tyre from the bead circumference.","Overall Dimensions: 3'x6'x7' Appx.","Air Pressure required: 8Kg/cm2.","Connected load: 0.4Kw."] },
-  { id:10, name:"Repair Spreader", model:"KRI-IS-10.20", img:"image/10.png", category:"other",
-    summary:"Compact pneumatic repair spreader for upto 10.00-20 tyre size.",
-    specs:["Pneumatically air operated.","Capacity to inspect 10.00-20 tyre size.","Provided with light for clear vision.","Multi angular bead hooks for firm gripping of tyre from the bead circumference.","Overall Dimensions: 3'x2'x3' Appx.","Air pressure required: 8Kg/cm2.","Connected load: 0.1KW."] },
-  { id:11, name:"Cold Curing Chamber (Standard)", model:"KRI-CCC-4/5/7/11/14-12.20", img:"image/11.png", category:"chamber",
-    summary:"High-capacity insulated curing chambers with pneumatic doors.",
-    specs:["Available capacities: 4, 5, 7, 11, or 14 tyres of 10.00-20 + 1 tyre of LTV.","Inside & outside insulated for less power consumption. Outside fan Motor.","Hydraulically tested at 12kg/cm².","Finned type heaters for heat dissipation.","Pneumatic door design for more safety & easy operation.","Air ducting for streamlined air flow & equal temperature distribution.","Fitted with thermometer, overheat safety controller with digital temperature display.","999 minutes timer for auto exhaust & indication through hooter for completion of curing cycle.","Auto differential Pressure control.","Interlocking of heaters with fan motor & chamber pressure.","Provided with safeties like high chamber Pressure / tyre pressure & high temperature.","Overall Dimensions: 9'x7'x6' Appx.","Air Pressure required: 10kg/cm².","Air consumption required: 60 cfm at 150psi.","Connected load: 15.50 KW.","Optional: Differential pressure curing (D.P.C.) System, Alarming system, Pressure/Temperature Recorders."] },
-  { id:12, name:"Cold Curing Chamber (Pin Type)", model:"KRI-CCC-3-11.20", img:"image/12.png", category:"chamber",
-    summary:"Insulated 3-tyre curing chamber with round heaters and pin-type door.",
-    specs:["Capacity: Upto 11.20 tyre size (3 tyres of 10.00-20 + 1 tyre of LTV size).","Inside & Outside insulated. Outside fan motor.","Round type heaters for fast heat dissipation.","Pin type door design, provided with 4 Nos Heavy duty locks L type.","Fitted with thermometer, overheat safety controller with digital temperature display.","999 mins timer for auto exhaust & indication through hooter.","Auto differential pressure control.","Interlocking of heaters with fan motor & chamber pressure.","Overall Dimensions: 6'x7'x6' Appx.","Air Pressure: 8Kg/cm².","Air consumption required: 27cfm at 150psi.","Connected load: 12.50 K.W."] },
-  { id:13, name:"Cold Curing Chamber (Pneumatic Door)", model:"KRI-CCC-3-11.20", img:"image/13.png", category:"chamber",
-    summary:"3-tyre chamber featuring a pneumatic door and inbuilt tyre lift.",
-    specs:["Capacity: Upto 11.20 tyre size (3 tyres of 10.00-20 + 1 tyre of LTV size).","Inside & Outside insulated. Outside fan motor.","Round type heaters for fast heat dissipation.","Pneumatic door design for more safety & easy operation.","Fitted with thermometer, overheat safety controller with digital temperature display.","999 mins timer for auto exhaust & hooter indication.","Auto differential pressure control.","Interlocking of heaters with fan motor & chamber pressure.","Provided with Pneumatic tyre lift.","Overall Dimensions: 6'x7'x6' Appx.","Air Pressure: 8Kg/cm².","Air consumption required: 27cfm at 150psi.","Connected load: 12.50 K.W."] },
-  { id:14, name:"Electric Cut Vulcanizing Machine", model:"KRI-ECV-32", img:"image/14.png", category:"other",
-    summary:"Vulcanizing machine up to 12.20 tyre size with air heaters.",
-    specs:["Capacity Up-to 12.20 tyre size.","Provided with three Bolts, Air Heaters, Control Panel with stand.","Bead plate 20\" - One Set.","Spacer ring (1 Set of 4 No.) 1/2\", 3/4\", 1\" (2pcs).","Overall Dimensions: 3'x3'x3' Appx.","Connected Load: 5 KW."] },
-  { id:15, name:"Electric Cut Vulcanizing Machine (OTR)", model:"KRI-ECV-52", img:"image/15.png", category:"other",
-    summary:"Heavy-duty OTR vulcanizer up to 14.25 tyre size.",
-    specs:["Capacity Up-to 14.25 tyre size.","Provided with three Bolts, Air Heaters, Control Panel with stand.","Bead plate (Three Sets) 24\", 25\" & 28\".","Spacer ring (1 Set of 6 No.) 1/2\", 3/4\", 1\"(2pcs), 2\" (2 Pcs).","Overall Dimensions: 3'x3'x3' Appx.","Connected Load: 6 KW."] },
-  { id:16, name:"Mono Rail", model:"KRI-MR-7-12.20", img:"image/16.png", category:"other",
-    summary:"Capable of holding 14 tyres at a time for easy chamber loading.",
-    specs:["Capacity: 12.20 tyre size.","Capable of 14 tyres at a time for easy & quick loading in the chamber.","Provided with pneumatically operated Tyre lift for lifting of rimmed tyres.","Overall Dimensions: 14'x6'x6' Appx.","Air Pressure required: 8 Kg/cm2."] },
-  { id:17, name:"Mobile Type Lift", model:"KRI-TL-10.20", img:"image/17.png", category:"other",
-    summary:"Movable pneumatic lift for heavy rimmed tyres.",
-    specs:["Movable lift for lifting of rimmed tyres.","Pneumatically operated frame.","Heavy Duty castor wheels.","Capacity: upto 10.00-20 tyre size.","Overall dimensions 6'x3'x3' Appx."] },
-  { id:18, name:"Skiving Stand", model:"KRI-SS-4-10.00-20", img:"image/18.png", category:"other",
-    summary:"Sturdy stand holding up to 4 tyres for skiving work.",
-    specs:["Capacity upto 10.00-20 tyre size.","Holds upto 4 tyres of 10.00-20.","Overall dimensions 3'x4'x 4' Appx."] },
-  { id:19, name:"Skiving Motor", model:"KRI-FSB", img:"image/19.png", category:"other",
-    summary:"Trolley-mounted balanced rotor motor for skiving.",
-    specs:["An efficient equipment for doing the skiving work.","Driven by 1 H.P/2800rpm motor.","Mounted on a trolley for easy movement.","Fully balanced rotor."] },
-  { id:20, name:"Envelopure Expander", model:"KRI-EE-12.20", img:"image/20.png", category:"other",
-    summary:"Pneumatic tyre lift expander for 12.20 tyre sizes.",
-    specs:["Provided with tyre lift Pneumatical operated.","Capacity 12.20 tyre size.","Overall Dimensions: 7'x7'x3' Appx."] },
-  { id:21, name:"Warming Tray", model:"KRI-WT", img:"image/21.png", category:"other",
-    summary:"Thermostat-controlled device for heating repair gum.",
-    specs:["An excellent device for heating of repair gum to be used for filling.","Provided with a thermostat for control of temperature.","Connecting load 1K.W."] },
-  { id:22, name:"Guillotine Cutter", model:"KRI-GC-10.20", img:"image/22.png", category:"other",
-    summary:"300mm width manual cutter for retreading materials.",
-    specs:["Cutting capacity: 300mm width.","Overall dimensions 2'x2'x1' Appx."] },
-  { id:23, name:"Tyre Changer Machine (Manual)", model:"KRI-TC-16", img:"image/23.png", category:"other",
-    summary:"Pneumatically operated manual tyre changer.",
-    specs:["Capacity Up-to 16\" tyre size.","Dimension 3'x2'x2'.","Pneumatically Operated.","Provided with FRCL unit & hand leaver valve."] },
-  { id:24, name:"Tools, Rims & Flanges", model:"ACCESSORIES", img:"image/24.png", category:"other",
-    summary:"Curing rims, envelop sealing flanges, and expandable rims.",
-    specs:["CURING RIMS: Hydraulically pressed & light weight. Sizes available: 8\" to 24\". Provided with E.R.W. Welding.","ENVELOP SEALING FLANGES: Hydraulically pressed & light weight. Sizes available: 8\" to 24\".","EXPANDABLE RIM: Up-to tyre size 12\" to 24\". Available with 10 Segments & 12 Segments.","Equipment Spare Parts Kit.","Distribution Control Panel Board.","Retreading Tools."] }
-];
+  const machineData = [
+            {
+                id: 1, name: "Buffer", model: "KRI-BF-10.20", 
+				img: "image/1.png",
+				images: ["image/1.png", "image/2.png", "image/3.png"],
+				category: "buffer",
+                summary: "10.20 tyre size buffer with 7.5 H.P motor and pneumatic brake.",
+                specs: [
+                    "Capacity: 10.20 tyre size.",
+                    "Provided with 7.5 H.P motor for buffing.",
+                    "Shoulder trimming facility.",
+                    "Forward & Reverse Buffing Facility.",
+                    "Pneumatic brake for rotary table & rasp stand.",
+                    "Heavy section 3H.P Blower for buffer dust.",
+                    "Air blow Gun for air blowing purpose as required.",
+                    "Specially designed rasp Hub assembly & blades for uninterrupted working.",
+                    "Motorised table slide movement with 0.5HP motor.",
+                    "Overall dimensions 6'x6'x6' Appx.",
+                    "Air Consumption: 10 cfm at 125 Psi: 50 cfm at 125Psi while inflation.",
+                    "Connected load 9.37 K.W."
+                ]
+            },
+            {
+                id: 2, name: "Builder", model: "KRI-BD-10.20", img: "image/2.png", category: "builder",
+                summary: "Upto 10.20 tyre size builder with zero air entrapment stitcher wheels.",
+                specs: [
+                    "Capacity: upto 10.20 tyre size.",
+                    "Foot switch operated tyre drive.",
+                    "Provided with leak proof chucks.",
+                    "Specially designed sticher wheels, moving on linear wheels, for zero air entrapment.",
+                    "Forward & reverse tyre drive motion.",
+                    "Provided with Pneumatic tread cutter.",
+                    "Safeties for high inflation Pressure.",
+                    "Overall Dimensions 5'x5'x5' Appx.",
+                    "Air consumption 10cfm at 125psi intermittent: 50cfm at 125 psi while inflation.",
+                    "Connected load: 0.38 KW."
+                ]
+            },
+            {
+                id: 3, name: "Buffer (Expandable)", model: "KRI-BF-10.20", img: "image/3.png", category: "buffer",
+                summary: "Expandable buffer for 10.20 tyre size with 7.5 HP motor.",
+                specs: [
+                    "Capacity: 10.20 tyre size.",
+                    "Provided with 7.5 H.P motor for buffing.",
+                    "Shoulder trimming facility.",
+                    "Forward Buffing Facility.",
+                    "Pneumatic brake for rotary table & rasp stand.",
+                    "Heavy section 3H.P Blower for buffer dust.",
+                    "Air blow Gun for air blowing purpose as required.",
+                    "Specially designed rasp Hub assembly & blades for uninterrupted working.",
+                    "Motorised table slide movement with 0.5HP motor.",
+                    "Overall dimensions 6'x6'x6' Appx.",
+                    "Air Consumption: 10 cfm at 125 Psi: 50 cfm at 125Psi while inflation.",
+                    "Connected load 8.87 K.W."
+                ]
+            },
+            {
+                id: 4, name: "Builder (Expandable)", model: "KRI-BD-10.20", img: "image/4.jpg.jpeg", category: "builder",
+                summary: "Builder featuring an expandable hub and pneumatic tread cutter.",
+                specs: [
+                    "Capacity: upto 10.20 tyre size.",
+                    "Foot switch operated tyre drive.",
+                    "Provided with Expandable hub.",
+                    "Specially designed sticher wheels, moving on linear wheels, for zero air entrapment.",
+                    "Forward & reverse tyre drive motion.",
+                    "Provided with Pneumatic tread cutter.",
+                    "Safeties for high inflation Pressure.",
+                    "Overall Dimensions 5'x5'x5' Appx.",
+                    "Air consumption 10cfm at 125psi intermittent: 50cfm at 125 psi while inflation.",
+                    "Connected load: 0.38 KW."
+                ]
+            },
+            {
+                id: 5, name: "Buffer (OTR)", model: "KRI-BF-14.25", img: "image/5.png", category: "otr",
+                summary: "Heavy-duty OTR buffer upto 14.25 tyre size with 10 H.P. motor.",
+                specs: [
+                    "Capacity Upto 14.25 tyre size.",
+                    "Provided with one fixed & one movable chuck.",
+                    "10 H.P. motor for buffing.",
+                    "Pneumatically operated inbuilt tyre lift for lifting of tyre from the floor to the chuck.",
+                    "Tread measuring device for easy measurement of circumference.",
+                    "Shoulder trimming facility & Forward/reverse buffing facility.",
+                    "Device for measuring shoulder trimming width.",
+                    "Rasp blades sharpening attachment.",
+                    "Pneumatic brake for rotary table & rasp stand.",
+                    "Heavy suction 3 H.P. blower for buffer dust & Air blow gun.",
+                    "Air jets for buffer dust cleaning at side roil & lead screw.",
+                    "Specially designed rasp hub assembly & blades for uninterrupted working.",
+                    "Motorised table slide movement with 0.5 H.P. motor.",
+                    "Overall Dimensions: 7'x8'x9' Appx.",
+                    "Air consumption: 10cfm at 125psi: 50cfm at 125psi, while inflation.",
+                    "Connected load: 15.5 KW.",
+                    "OPTIONAL - Provided with tractor tyre attachment with 7.5 H.P. Motor."
+                ]
+            },
+            {
+                id: 6, name: "Builder (OTR)", model: "KRI-KBD-14.25", img: "image/6.png", category: "otr",
+                summary: "OTR Builder with movable/fixed chucks and adjustable stitcher wheels.",
+                specs: [
+                    "Capacity: Upto 14.25 tyre size.",
+                    "Foot switch operated tyre drive control.",
+                    "Provide with one movable & one fixed chuck.",
+                    "Pneumatic tyre lift for lifting of tyre from the floor to the desired level between the chucks.",
+                    "Specially designed stitcher wheels, moving on linear bearings for zero air entrapment.",
+                    "Adjustable stitcher wheels linear speed.",
+                    "Forward & reverse tyre drive motion.",
+                    "Overall Dimensions: 6'x5'x7' Appx.",
+                    "Air consumption: 10cfm at 125psi Intermittent: 50cfm at 125psi while inflation.",
+                    "Connected load: 0.38 KW."
+                ]
+            },
+            {
+                id: 7, name: "Mini Rasper", model: "KRI-MRS-11.20", img: "image/7.png", category: "buffer",
+                summary: "11.20 tyre capacity with 10 H.P buffing motor and inbuilt tyre lift.",
+                specs: [
+                    "Capacity: 11.20 tyre size.",
+                    "Provided with 10 H.P motor for buffing.",
+                    "Pneumatically operated inbuilt tyre lift for lifting of tyre from the floor to chuck.",
+                    "Shoulder trimming facility provided.",
+                    "Forward & reverse buffing facility provided.",
+                    "Pneumatic brake for rotary table & rasp stand.",
+                    "Heavy section 3 H.P blower for buffer dust.",
+                    "Air blow gun for air blowing purpose as required.",
+                    "Specially designed rasp hub assembly & blades for uninterrupted working.",
+                    "Motorised table slide motion with 0.5 H.P motor.",
+                    "Foot switch operated tyre drive control.",
+                    "Overall Dimensions: 6'x6'x7' Appx.",
+                    "Air pressure required: 10kg/cm2.",
+                    "Air consumption: 40cfm at 100psi, while inflation.",
+                    "Connected load: 11.37 K.W."
+                ]
+            },
+            {
+                id: 8, name: "Mini Rasper (Expandable)", model: "KRI-MRS-12.20", img: "image/8.png", category: "buffer",
+                summary: "12.20 tyre capacity expandable mini rasper with 12\"-24\" rim.",
+                specs: [
+                    "Capacity: 12.20 tyre size.",
+                    "Provided with 10 H.P motor for buffing.",
+                    "Pneumatically operated inbuilt tyre lift for lifting of tyre from the floor to expandable rim.",
+                    "Shoulder trimming facility provided.",
+                    "Forward & reverse buffing facility provided.",
+                    "Pneumatic brake for rotary table & rasp stand.",
+                    "Heavy section 3 H.P blower for buffer dust.",
+                    "Air blow gun for air blowing purpose as required.",
+                    "Specially designed rasp hub assembly & blades for uninterrupted working.",
+                    "Motorised table slide motion with 0.5 H.P motor.",
+                    "Foot switch operated tyre drive control.",
+                    "Overall Dimensions: 6'x6'x7' Appx.",
+                    "Air pressure required: 10kg/cm2.",
+                    "Air consumption: 40cfm at 100psi, while inflation.",
+                    "Connected load: 11.37 K.W.",
+                    "EXPANDABLE RIM UP-TO TYRE SIZE 12\" TO 24\" (Available with 10 Segments & 12 Segments)."
+                ]
+            },
+            {
+                id: 9, name: "Inspection Spreader", model: "KRI-IS-10.20", img: "image/9.png", category: "other",
+                summary: "Pneumatic tyre inspection with 4 lights and floor-to-jaw lift.",
+                specs: [
+                    "Pneumatically air operated.",
+                    "Capacity to inspect 10.00-20 tyre size.",
+                    "Provided with 4 lights for clear vision.",
+                    "Provided with tyre lift for lifting of tyre from the floor to the gripping jaws.",
+                    "Multi angular bead hooks for firm gripping of tyre from the bead circumference.",
+                    "Overall Dimensions: 3'x6'x7' Appx.",
+                    "Air Pressure required: 8Kg/cm2.",
+                    "Connected load: 0.4Kw."
+                ]
+            },
+            {
+                id: 10, name: "Repair Spreader", model: "KRI-IS-10.20", img: "image/10.png", category: "other",
+                summary: "Compact pneumatic repair spreader for upto 10.00-20 tyre size.",
+                specs: [
+                    "Pneumatically air operated.",
+                    "Capacity to inspect 10.00-20 tyre size.",
+                    "Provided with light for clear vision.",
+                    "Multi angular bead hooks for firm gripping of tyre from the bead circumference.",
+                    "Overall Dimensions: 3'x2'x3' Appx.",
+                    "Air pressure required: 8Kg/cm2.",
+                    "Connected load: 0.1KW."
+                ]
+            },
+            {
+                id: 11, name: "Cold Curing Chamber (Standard)", model: "KRI-CCC-4/5/7/11/14-12.20", img: "image/11.png", category: "chamber",
+                summary: "High-capacity insulated curing chambers with pneumatic doors.",
+                specs: [
+                    "Available capacities: 4, 5, 7, 11, or 14 tyres of 10.00-20 + 1 tyre of LTV.",
+                    "Inside & outside insulated for less power consumption. Outside fan Motor.",
+                    "Hydraulically tested at 12kg/cm².",
+                    "Finned type heaters for heat dissipation.",
+                    "Pneumatic door design for more safety & easy operation.",
+                    "Air ducting for streamlined air flow & equal temperature distribution.",
+                    "Fitted with thermometer, overheat safety controller with digital temperature display.",
+                    "999 minutes timer for auto exhaust & indication through hooter for completion of curing cycle.",
+                    "Auto differential Pressure control.",
+                    "Interlocking of heaters with fan motor & chamber pressure.",
+                    "Provided with safeties like high chamber Pressure / tyre pressure & high temperature.",
+                    "Overall Dimensions: 9'x7'x6' Appx.",
+                    "Air Pressure required: 10kg/cm².",
+                    "Air consumption required: 60 cfm at 150psi.",
+                    "Connected load: 15.50 KW.",
+                    "Optional: Differential pressure curing (D.P.C.) System, Alarming system, Pressure/Temperature Recorders."
+                ]
+            },
+            {
+                id: 12, name: "Cold Curing Chamber (Pin Type)", model: "KRI-CCC-3-11.20", img: "image/12.png", category: "chamber",
+                summary: "Insulated 3-tyre curing chamber with round heaters and pin-type door.",
+                specs: [
+                    "Capacity: Upto 11.20 tyre size (3 tyres of 10.00-20 + 1 tyre of LTV size).",
+                    "Inside & Outside insulated. Outside fan motor.",
+                    "Round type heaters for fast heat dissipation.",
+                    "Pin type door design, provided with 4 Nos Heavy duty locks L type.",
+                    "Fitted with thermometer, overheat safety controller with digital temperature display.",
+                    "999 mins timer for auto exhaust & indication through hooter.",
+                    "Auto differential pressure control.",
+                    "Interlocking of heaters with fan motor & chamber pressure.",
+                    "Overall Dimensions: 6'x7'x6' Appx.",
+                    "Air Pressure: 8Kg/cm².",
+                    "Air consumption required: 27cfm at 150psi.",
+                    "Connected load: 12.50 K.W."
+                ]
+            },
+            {
+                id: 13, name: "Cold Curing Chamber (Pneumatic Door)", model: "KRI-CCC-3-11.20", img: "image/13.png", category: "chamber",
+                summary: "3-tyre chamber featuring a pneumatic door and inbuilt tyre lift.",
+                specs: [
+                    "Capacity: Upto 11.20 tyre size (3 tyres of 10.00-20 + 1 tyre of LTV size).",
+                    "Inside & Outside insulated. Outside fan motor.",
+                    "Round type heaters for fast heat dissipation.",
+                    "Pneumatic door design for more safety & easy operation.",
+                    "Fitted with thermometer, overheat safety controller with digital temperature display.",
+                    "999 mins timer for auto exhaust & hooter indication.",
+                    "Auto differential pressure control.",
+                    "Interlocking of heaters with fan motor & chamber pressure.",
+                    "Provided with Pneumatic tyre lift.",
+                    "Overall Dimensions: 6'x7'x6' Appx.",
+                    "Air Pressure: 8Kg/cm².",
+                    "Air consumption required: 27cfm at 150psi.",
+                    "Connected load: 12.50 K.W."
+                ]
+            },
+            {
+                id: 14, name: "Electric Cut Vulcanizing Machine", model: "KRI-ECV-32", img: "image/14.png", category: "other",
+                summary: "Vulcanizing machine up to 12.20 tyre size with air heaters.",
+                specs: [
+                    "Capacity Up-to 12.20 tyre size.",
+                    "Provided with three Bolts, Air Heaters, Control Panel with stand.",
+                    "Bead plate 20\" - One Set.",
+                    "Spacer ring (1 Set of 4 No.) 1/2\", 3/4\", 1\" (2pcs).",
+                    "Overall Dimensions: 3'x3'x3' Appx.",
+                    "Connected Load: 5 KW."
+                ]
+            },
+            {
+                id: 15, name: "Electric Cut Vulcanizing Machine (OTR)", model: "KRI-ECV-52", img: "image/18.png", category: "otr",
+                summary: "Heavy-duty OTR vulcanizer up to 14.25 tyre size.",
+                specs: [
+                    "Capacity Up-to 14.25 tyre size.",
+                    "Provided with three Bolts, Air Heaters, Control Panel with stand.",
+                    "Bead plate (Three Sets) 24\", 25\" & 28\".",
+                    "Spacer ring (1 Set of 6 No.) 1/2\", 3/4\", 1\"(2pcs), 2\" (2 Pcs).",
+                    "Overall Dimensions: 3'x3'x3' Appx.",
+                    "Connected Load: 6 KW."
+                ]
+            },
+            {
+                id: 16, name: "Mono Rail", model: "KRI-MR-7-12.20", img: "image/16.png", category: "other",
+                summary: "Capable of holding 14 tyres at a time for easy chamber loading.",
+                specs: [
+                    "Capacity: 12.20 tyre size.",
+                    "Capable of 14 tyres at a time for easy & quick loading in the chamber.",
+                    "Provided with pneumatically operated Tyre lift for lifting of rimmed tyres.",
+                    "Overall Dimensions: 14'x6'x6' Appx.",
+                    "Air Pressure required: 8 Kg/cm2."
+                ]
+            },
+            {
+                id: 17, name: "Mobile Type Lift", model: "KRI-TL-10.20", img: "image/17.png", category: "other",
+                summary: "Movable pneumatic lift for heavy rimmed tyres.",
+                specs: [
+                    "Movable lift for lifting of rimmed tyres.",
+                    "Pneumatically operated frame.",
+                    "Heavy Duty castor wheels.",
+                    "Capacity: upto 10.00-20 tyre size.",
+                    "Overall dimensions 6'x3'x3' Appx."
+                ]
+            },
+            {
+                id: 18, name: "Skiving Stand", model: "KRI-SS-4-10.00-20", img: "image/18.png", category: "other",
+                summary: "Sturdy stand holding up to 4 tyres for skiving work.",
+                specs: [
+                    "Capacity upto 10.00-20 tyre size.",
+                    "Holds upto 4 tyres of 10.00-20.",
+                    "Overall dimensions 3'x4'x 4' Appx."
+                ]
+            },
+            {
+                id: 19, name: "Skiving Motor", model: "KRI-FSB", img: "image/19.png", category: "other",
+                summary: "Trolley-mounted balanced rotor motor for skiving.",
+                specs: [
+                    "An efficient equipment for doing the skiving work.",
+                    "Driven by 1 H.P/2800rpm motor.",
+                    "Mounted on a trolley for easy movement.",
+                    "Fully balanced rotor."
+                ]
+            },
+            {
+                id: 20, name: "Envelopure Expander", model: "KRI-EE-12.20", img: "image/20.png", category: "other",
+                summary: "Pneumatic tyre lift expander for 12.20 tyre sizes.",
+                specs: [
+                    "Provided with tyre lift Pneumatical operated.",
+                    "Capacity 12.20 tyre size.",
+                    "Overall Dimensions: 7'x7'x3' Appx."
+                ]
+            },
+            {
+                id: 21, name: "Warming Tray", model: "KRI-WT", img: "image/21.png", category: "other",
+                summary: "Thermostat-controlled device for heating repair gum.",
+                specs: [
+                    "An excellent device for heating of repair gum to be used for filling.",
+                    "Provided with a thermostat for control of temperature.",
+                    "Connecting load 1K.W."
+                ]
+            },
+            {
+                id: 22, name: "Gullotine Cutter", model: "KRI-GC-10.20", img: "image/22.png", category: "other",
+                summary: "300mm width manual cutter for retreading materials.",
+                specs: [
+                    "Cutting capacity: 300mm width.",
+                    "Overall dimensions 2'x2'x1' Appx."
+                ]
+            },
+            {
+                id: 23, name: "Tyre Changer Machine (Manual)", model: "KRI-TC-16", img: "image/23.png", category: "other",
+                summary: "Pneumatically operated manual tyre changer.",
+                specs: [
+                    "Capacity Up-to 16\" tyre size.",
+                    "Dimension 3'x2'x2'.",
+                    "Pneumatically Operated.",
+                    "Provided with FRCL unit & hand leaver valve."
+                ]
+            },
+            {
+                id: 24, name: "Tools, Rims & Flanges", model: "ACCESSORIES", img: "image/24.png", category: "other",
+                summary: "Curing rims, envelop sealing flanges, and expandable rims.",
+                specs: [
+                    "CURING RIMS: Hydraulically pressed & light weight. Provided with spring loaded strong locks. Sizes available: 8\" to 24\". Provided with E.R.W. Welding.",
+                    "ENVELOP SEALING FLANGES: Hydraulically pressed & light weight. Sizes available: 8\" to 24\".",
+                    "EXPANDABLE RIM: Up-to tyre size 12\" to 24\". Available with 10 Segments & 12 Segments.",
+                    "Equipment Spare Parts Kit.",
+                    "Distribution Control Panel Board.",
+                    "Retreading Tools."
+                ]
+            }
+        ];
 
 let activeFilter = 'all';
 const modalImgPanel = document.querySelector('.modal-img-panel');
@@ -1245,17 +1643,72 @@ const modal = document.getElementById('machineModal');
 function openModal(id) {
   const m = machineData.find(x => x.id === id);
   if (!m) return;
-  document.getElementById('modalImg').src = m.img;
+  
+  // Set up the images array (fallback to the single img if the array isn't provided)
+  currentMachineImages = (m.images && m.images.length > 0) ? m.images : [m.img];
+  currentImageIndex = 0;
+  
+  // Render the initial image and dots
+  updateModalGallery();
+
   document.getElementById('modalTitle').textContent = m.name;
   document.getElementById('modalModel').textContent = 'Model # ' + m.model;
   document.getElementById('modalList').innerHTML = m.specs.map(s => `<li>${s}</li>`).join('');
+  
   const msg = encodeURIComponent(`Hello, I am interested in the ${m.name} (Model: ${m.model}). Please provide more details.`);
   document.getElementById('btnCall').href = 'tel:+919812044530';
   document.getElementById('btnWhatsapp').href = `https://wa.me/919812044530?text=${msg}`;
   document.getElementById('btnEmail').href = `mailto:kmtretind@gmail.com?subject=Inquiry: ${m.name}&body=${decodeURIComponent(msg)}`;
   document.getElementById('btnSms').href = `sms:+919812044530?body=${decodeURIComponent(msg)}`;
+  
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
+}
+function updateModalGallery() {
+  const imgEl = document.getElementById('modalImg');
+  imgEl.src = currentMachineImages[currentImageIndex];
+  
+  imgEl.classList.remove('zoomed');
+  isZoomed = false;
+  
+  // Manage navigation buttons visibility
+  const prevBtn = document.querySelector('.prev-btn');
+  const nextBtn = document.querySelector('.next-btn');
+  const indicatorsContainer = document.getElementById('imgIndicators');
+  
+  indicatorsContainer.innerHTML = '';
+  
+  if (currentMachineImages.length > 1) {
+    prevBtn.style.display = 'flex';
+    nextBtn.style.display = 'flex';
+    
+    // Create dots
+    currentMachineImages.forEach((_, idx) => {
+      const dot = document.createElement('div');
+      dot.className = `img-dot ${idx === currentImageIndex ? 'active' : ''}`;
+      dot.onclick = (e) => { 
+        e.stopPropagation(); 
+        currentImageIndex = idx; 
+        updateModalGallery(); 
+      };
+      indicatorsContainer.appendChild(dot);
+    });
+  } else {
+    prevBtn.style.display = 'none';
+    nextBtn.style.display = 'none';
+  }
+}
+
+function prevImage(e) {
+  e.stopPropagation(); // Prevent modal zoom from misfiring
+  currentImageIndex = (currentImageIndex > 0) ? currentImageIndex - 1 : currentMachineImages.length - 1;
+  updateModalGallery();
+}
+
+function nextImage(e) {
+  e.stopPropagation(); // Prevent modal zoom from misfiring
+  currentImageIndex = (currentImageIndex < currentMachineImages.length - 1) ? currentImageIndex + 1 : 0;
+  updateModalGallery();
 }
 
 function closeModal() {
@@ -1285,26 +1738,75 @@ buildGrid('all');
 
 
 
-modalImgPanel.addEventListener('mousemove', (e) => {
-  // Get the size and position of the image panel
-  const rect = modalImgPanel.getBoundingClientRect();
-  
-  // Calculate cursor position as a percentage (0 to 100%)
-  const x = ((e.clientX - rect.left) / rect.width) * 100;
-  const y = ((e.clientY - rect.top) / rect.height) * 100;
-  
-  // Shift the transform origin to the mouse coordinates
-  modalImgTarget.style.transformOrigin = `${x}% ${y}%`;
+// ─── CLICK TO ZOOM LOGIC ───
+let isZoomed = false;
+
+modalImgTarget.addEventListener('click', function(e) {
+  if (!isZoomed) {
+    // Get the exact click coordinates relative to the image
+    const rect = this.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    
+    // Set the zoom origin to the click point and add the zoom class
+    this.style.transformOrigin = `${x}% ${y}%`;
+    this.classList.add('zoomed');
+    isZoomed = true;
+  } else {
+    // Zoom back out
+    this.classList.remove('zoomed');
+    isZoomed = false;
+  }
 });
 
-// Reset the image to the center when the mouse leaves the box
-modalImgPanel.addEventListener('mouseleave', () => {
-  modalImgTarget.style.transformOrigin = 'center center';
+
+
+
+// ─── HERO SLIDER LOGIC ───
+const heroSlides = document.querySelectorAll('.hero-slide');
+const heroIndicatorsContainer = document.getElementById('heroIndicators');
+let currentHeroIndex = 0;
+let heroInterval;
+
+// Create the dots dynamically based on the number of images
+heroSlides.forEach((_, idx) => {
+  const dot = document.createElement('div');
+  dot.className = `hero-dot ${idx === 0 ? 'active' : ''}`;
+  dot.onclick = () => goToHeroSlide(idx);
+  heroIndicatorsContainer.appendChild(dot);
 });
 
+const heroDots = document.querySelectorAll('.hero-dot');
 
+function goToHeroSlide(idx) {
+  // Remove active state from current
+  heroSlides[currentHeroIndex].classList.remove('active');
+  heroDots[currentHeroIndex].classList.remove('active');
+  
+  currentHeroIndex = idx;
+  
+  // Add active state to new
+  heroSlides[currentHeroIndex].classList.add('active');
+  heroDots[currentHeroIndex].classList.add('active');
+  
+  // Reset the timer when manually clicked so it doesn't instantly double-skip
+  resetHeroInterval();
+}
 
+function nextHeroSlide() {
+  let nextIndex = (currentHeroIndex + 1) % heroSlides.length;
+  goToHeroSlide(nextIndex);
+}
 
+function resetHeroInterval() {
+  clearInterval(heroInterval);
+  heroInterval = setInterval(nextHeroSlide, 4500); // Changes image every 4.5 seconds
+}
+
+// Start the slider
+if(heroSlides.length > 1) {
+  resetHeroInterval();
+}
 
 
 </script>
