@@ -11,6 +11,7 @@
     <meta property="og:description" content="Manufacturer and exporter of high-quality tyre retreading equipment. Trusted by STUs and PSUs Pan-India.">
     <meta property="og:image" content="image/15.jpeg">
     <meta property="og:type" content="website">
+	<link rel="icon" type="image/x-icon" href="/favicon.ico">
 
 
 
@@ -451,8 +452,8 @@ section {
   border: 1.5px solid var(--paper-3);
   background: transparent;
   color: var(--ink-2);
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 700;
   cursor: pointer;
   font-family: 'Outfit', sans-serif;
   transition: all 0.18s;
@@ -600,14 +601,16 @@ section {
 .modal-box {
   background: var(--white);
   border-radius: 20px;
-  max-width: 900px;
-  width: 100%;
+  max-width: 1200px; /* Increased width */
+  width: 95%;
+  height: 90vh; /* Makes the modal take 90% of screen height */
   margin: auto;
   display: grid;
-  grid-template-columns: 1fr 1.4fr;
+  grid-template-columns: 1.6fr 1fr; /* Image gets significantly more space */
   overflow: hidden;
   box-shadow: 0 30px 80px rgba(15,17,23,0.25);
   animation: modal-in 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  position: relative;
 }
 
 @keyframes modal-in {
@@ -624,11 +627,28 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2.5rem;
+  padding: 0; 
   border-right: 1px solid var(--paper-3);
-  min-height: 320px;
   position: relative;
   overflow: hidden;
+  height: 100%;
+}
+
+.modal-img-panel img {
+  width: 100%; 
+  height: 100%; 
+  object-fit: contain;
+  transition: transform 0.3s ease; 
+  cursor: zoom-in;
+  transform: scale(1.6); /* Makes the image larger by default */
+}
+
+.modal-img-panel img.zoomed {
+  cursor: grab; /* Shows hand indicating draggable */
+}
+
+.modal-img-panel img.zoomed:active {
+  cursor: grabbing; /* Shows closed hand when dragging */
 }
 
 .img-nav-btn {
@@ -765,7 +785,7 @@ section {
 }
 
 .specs-list li {
-  font-size: 0.87rem;
+  font-size: 1.1rem;
   color: var(--ink-2);
   line-height: 1.55;
   display: flex;
@@ -869,6 +889,169 @@ section {
   color: var(--ink-3);
   line-height: 1.6;
 }
+
+/* ─── CERTIFICATE GALLERY & LIGHTBOX ─── */
+.certs-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.cert-item {
+  background: var(--white);
+  border: 1px solid var(--paper-3);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.cert-item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent);
+}
+
+.cert-img-box {
+  height: 260px;
+  background: #e9e5db;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 1.5rem;
+}
+
+.cert-img-box.award { border-bottom: 3px solid var(--gold); }
+
+.cert-img-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+  box-shadow: var(--shadow-sm);
+  background: white; 
+}
+
+.cert-item:hover .cert-img-box img { transform: scale(1.03); }
+
+.cert-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 17, 23, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.cert-item:hover .cert-overlay { opacity: 1; }
+
+.cert-overlay span {
+  background: var(--white);
+  color: var(--ink);
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transform: translateY(15px);
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.cert-item:hover .cert-overlay span { transform: translateY(0); }
+
+.cert-info {
+  padding: 1.5rem;
+  text-align: center;
+  flex: 1;
+}
+
+.cert-info h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+
+.cert-info p {
+  font-size: 0.85rem;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+
+/* INTERACTIVE LIGHTBOX */
+.interactive-cert-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,17,23,0.92);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.interactive-cert-lightbox.active { display: flex; }
+
+.interactive-cert-wrapper {
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.interactive-cert-lightbox img {
+  max-width: 90%;
+  max-height: 90vh;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  cursor: zoom-in;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.interactive-cert-lightbox img.zoomed { cursor: grab; }
+.interactive-cert-lightbox img.zoomed:active { cursor: grabbing; }
+
+.cert-lightbox-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: var(--white);
+  border: none;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, background 0.2s;
+  z-index: 2001;
+}
+
+.cert-lightbox-close:hover {
+  transform: scale(1.1);
+  background: #fde;
+  color: var(--accent);
+}
+
+
+
+
+
+
 
 /* ─── CONTACT ─── */
 .contact-section { background: var(--ink); color: var(--white); }
@@ -1087,15 +1270,15 @@ footer {
     <div class="hero-actions">
       <a href="#products" class="btn-primary">Explore Machinery →</a>
       <a href="#contact" class="btn-ghost">Get a Quote</a>
-      <a href="catalogue.pdf" class="btn-ghost" target="_blank" download>⬇ Download Catalogue</a>
+      <a href="https://drive.google.com/file/d/1swP8ZeqbaVQOwRziU52MbGbIS5FzbumH/view?usp=sharing" class="btn-ghost" target="_blank" download>⬇ Download Catalogue</a>
     </div>
   </div>
 <div class="hero-right">
   <div class="hero-img-wrapper" id="heroSlider">
     <!-- Add your hero images here. The first one gets the 'active' class -->
     <img src="image/15.jpeg" alt="KMT Machinery" class="hero-slide active">
-    <img src="image/11.png" alt="Curing Chamber" class="hero-slide">
-    <img src="image/1.png" alt="Buffer Machine" class="hero-slide">
+    <img src="image/w1.jpg" alt="Curing Chamber" class="hero-slide">
+    <img src="image/w2.jpg" alt="Buffer Machine" class="hero-slide">
   </div>
   <div class="hero-overlay"></div>
   
@@ -1172,24 +1355,95 @@ footer {
     <h2 class="section-title">Certifications & Awards</h2>
     <p class="section-sub">Recognised at national and international level for quality, innovation, and commitment to excellence.</p>
   </div>
-  <div class="certs-grid">
-    <div class="cert-card fade-up">
-      <div class="cert-icon iso">🏆</div>
-      <h3>ISO 9001:2015 Certified</h3>
-      <p>Our quality management system meets the internationally recognised ISO 9001:2015 standard, ensuring consistent, high-quality manufacturing processes.</p>
+  
+  <div class="certs-gallery">
+    
+    <div class="cert-item fade-up" onclick="openInteractiveCert('image/c1.jpg')">
+      <div class="cert-img-box">
+        <img src="image/c1.jpg" alt="Registered Trade Mark" loading="lazy">
+        <div class="cert-overlay"><span>🔍 Click to View</span></div>
+      </div>
+      <div class="cert-info">
+        <h3>Registered Trade Mark</h3>
+        <p>Trade Mark No. 2333779 (Class 7). Official brand protection for our machinery.</p>
+      </div>
     </div>
-    <div class="cert-card fade-up" style="transition-delay:0.1s">
-      <div class="cert-icon tm">📜</div>
-      <h3>Registered Trade Mark</h3>
-      <p>Trade Marks Registry #2333779 Class 7 — our brand is officially protected and recognised, standing as a mark of authenticity.</p>
+
+    <div class="cert-item fade-up" style="transition-delay: 0.1s" onclick="openInteractiveCert('image/c4.png')">
+      <div class="cert-img-box">
+        <img src="image/c4.png" alt="UDYAM Registration Certificate" loading="lazy">
+        <div class="cert-overlay"><span>🔍 Click to View</span></div>
+      </div>
+      <div class="cert-info">
+        <h3>UDYAM / MSME</h3>
+        <p>Recognized as a Manufacturing Enterprise by the Ministry of MSME.</p>
+      </div>
     </div>
-    <div class="cert-card fade-up" style="transition-delay:0.2s">
-      <div class="cert-icon export">🌍</div>
-      <h3>Export Excellence</h3>
-      <p>Recognised by the Government of India for excelling in the field of exports, and the first machinery maker from Narwana to enter international markets.</p>
+
+    <div class="cert-item fade-up" style="transition-delay: 0.2s" onclick="openInteractiveCert('image/c3.png')">
+      <div class="cert-img-box">
+        <img src="image/c3.png" alt="GST Registration" loading="lazy">
+        <div class="cert-overlay"><span>🔍 Click to View</span></div>
+      </div>
+      <div class="cert-info">
+        <h3>GST Registration</h3>
+        <p>Official Form GST REG-06 under the Government of India.</p>
+      </div>
     </div>
+
+    <div class="cert-item fade-up" style="transition-delay: 0.3s" onclick="openInteractiveCert('image/c5.png')">
+      <div class="cert-img-box">
+        <img src="image/c5.png" alt="IEC Digital Certificate" loading="lazy">
+        <div class="cert-overlay"><span>🔍 Click to View</span></div>
+      </div>
+      <div class="cert-info">
+        <h3>Importer-Exporter (IEC)</h3>
+        <p>Updated digital certification by the Directorate General of Foreign Trade.</p>
+      </div>
+    </div>
+
+    <div class="cert-item fade-up" style="transition-delay: 0.4s" onclick="openInteractiveCert('image/jind.png')">
+      <div class="cert-img-box award">
+        <img src="image/jind.png" alt="Export Excellence Award" loading="lazy">
+        <div class="cert-overlay"><span>🔍 Click to View</span></div>
+      </div>
+      <div class="cert-info">
+        <h3>Export Excellence Award</h3>
+        <p>Certificate of Recognition from the Exporters Conclave for excelling in Exports.</p>
+      </div>
+    </div>
+
+    <div class="cert-item fade-up" style="transition-delay: 0.5s" onclick="openInteractiveCert('image/c6.png')">
+      <div class="cert-img-box">
+        <img src="image/c6.png" alt="GST Enrolment Acknowledgment" loading="lazy">
+        <div class="cert-overlay"><span>🔍 Click to View</span></div>
+      </div>
+      <div class="cert-info">
+        <h3>GST Enrolment</h3>
+        <p>Official acknowledgment of application as an existing taxpayer under GST.</p>
+      </div>
+    </div>
+
+    <div class="cert-item fade-up" style="transition-delay: 0.6s" onclick="openInteractiveCert('image/c2.jpg')">
+      <div class="cert-img-box">
+        <img src="image/c2.jpg" alt="IEC Original Certificate" loading="lazy">
+        <div class="cert-overlay"><span>🔍 Click to View</span></div>
+      </div>
+      <div class="cert-info">
+        <h3>IEC (Original)</h3>
+        <p>Foundational Importer-Exporter Code from the Ministry of Commerce.</p>
+      </div>
+    </div>
+
   </div>
 </section>
+
+<div class="interactive-cert-lightbox" id="interactiveCertLightbox" onclick="closeInteractiveCert(event)">
+  <button class="cert-lightbox-close" onclick="closeInteractiveCert(event)">✕</button>
+  <div class="interactive-cert-wrapper">
+    <img id="interactiveCertImg" src="" alt="Full Certificate" onclick="event.stopPropagation()">
+  </div>
+</div>
 
 <!-- CONTACT -->
 <section id="contact" class="contact-section">
@@ -1250,7 +1504,7 @@ footer {
             {
                 id: 1, name: "Buffer", model: "KRI-BF-10.20", 
 				img: "image/1.png",
-				images: ["image/1.png", "image/2.png", "image/3.png"],
+				
 				category: "buffer",
                 summary: "10.20 tyre size buffer with 7.5 H.P motor and pneumatic brake.",
                 specs: [
@@ -1285,7 +1539,9 @@ footer {
                 ]
             },
             {
-                id: 3, name: "Buffer (Expandable)", model: "KRI-BF-10.20", img: "image/3.png", category: "buffer",
+                id: 3, name: "Buffer (Expandable)", model: "KRI-BF-10.20",
+                 images: ["image/3.png", "image/31.png", "image/32.png"],
+				img: "image/3.png", category: "buffer",
                 summary: "Expandable buffer for 10.20 tyre size with 7.5 HP motor.",
                 specs: [
                     "Capacity: 10.20 tyre size.",
@@ -1303,7 +1559,11 @@ footer {
                 ]
             },
             {
-                id: 4, name: "Builder (Expandable)", model: "KRI-BD-10.20", img: "image/4.jpg.jpeg", category: "builder",
+                id: 4, name: "Builder (Expandable)", model: "KRI-BD-10.20",
+				img: "image/4.png",
+				images: ["image/4.png", "image/41.png"],
+
+				category: "builder",
                 summary: "Builder featuring an expandable hub and pneumatic tread cutter.",
                 specs: [
                     "Capacity: upto 10.20 tyre size.",
@@ -1319,7 +1579,9 @@ footer {
                 ]
             },
             {
-                id: 5, name: "Buffer (OTR)", model: "KRI-BF-14.25", img: "image/5.png", category: "otr",
+                id: 5, name: "Buffer (OTR)", model: "KRI-BF-14.25", 
+				   images: ["image/5.png", "image/51.png", "image/52.png", "image/53.png", "image/54.png"],
+				img: "image/5.png", category: "otr",
                 summary: "Heavy-duty OTR buffer upto 14.25 tyre size with 10 H.P. motor.",
                 specs: [
                     "Capacity Upto 14.25 tyre size.",
@@ -1342,7 +1604,9 @@ footer {
                 ]
             },
             {
-                id: 6, name: "Builder (OTR)", model: "KRI-KBD-14.25", img: "image/6.png", category: "otr",
+                id: 6, name: "Builder (OTR)", model: "KRI-KBD-14.25",
+				images: ["image/6.png", "image/61.png", "image/62.png"],
+				img: "image/6.png", category: "otr",
                 summary: "OTR Builder with movable/fixed chucks and adjustable stitcher wheels.",
                 specs: [
                     "Capacity: Upto 14.25 tyre size.",
@@ -1358,7 +1622,10 @@ footer {
                 ]
             },
             {
-                id: 7, name: "Mini Rasper", model: "KRI-MRS-11.20", img: "image/7.png", category: "buffer",
+                id: 7, name: "Mini Rasper", model: "KRI-MRS-11.20", 
+				img: "image/7.png",
+				images: ["image/7.png", "image/71.png"],
+				category: "buffer",
                 summary: "11.20 tyre capacity with 10 H.P buffing motor and inbuilt tyre lift.",
                 specs: [
                     "Capacity: 11.20 tyre size.",
@@ -1379,7 +1646,10 @@ footer {
                 ]
             },
             {
-                id: 8, name: "Mini Rasper (Expandable)", model: "KRI-MRS-12.20", img: "image/8.png", category: "buffer",
+                id: 8, name: "Mini Rasper (Expandable)", model: "KRI-MRS-12.20", 
+				img: "image/8.png",
+				images: ["image/8.png", "image/81.png","image/82.png","image/83.png","image/84.png"],
+				category: "buffer",
                 summary: "12.20 tyre capacity expandable mini rasper with 12\"-24\" rim.",
                 specs: [
                     "Capacity: 12.20 tyre size.",
@@ -1415,7 +1685,10 @@ footer {
                 ]
             },
             {
-                id: 10, name: "Repair Spreader", model: "KRI-IS-10.20", img: "image/10.png", category: "other",
+                id: 10, name: "Repair Spreader", model: "KRI-IS-10.20",
+				img: "image/10.png", 
+				images: ["image/10.png", "image/101.png"],
+				category: "other",
                 summary: "Compact pneumatic repair spreader for upto 10.00-20 tyre size.",
                 specs: [
                     "Pneumatically air operated.",
@@ -1428,7 +1701,10 @@ footer {
                 ]
             },
             {
-                id: 11, name: "Cold Curing Chamber (Standard)", model: "KRI-CCC-4/5/7/11/14-12.20", img: "image/11.png", category: "chamber",
+                id: 11, name: "Cold Curing Chamber (Standard)", model: "MODEL # KRI-CCC-4-12.20(STANDARD)", 
+				img: "image/11.png",
+				images: ["image/11.png", "image/111.png","image/112.png"],
+				category: "chamber",
                 summary: "High-capacity insulated curing chambers with pneumatic doors.",
                 specs: [
                     "Available capacities: 4, 5, 7, 11, or 14 tyres of 10.00-20 + 1 tyre of LTV.",
@@ -1450,7 +1726,10 @@ footer {
                 ]
             },
             {
-                id: 12, name: "Cold Curing Chamber (Pin Type)", model: "KRI-CCC-3-11.20", img: "image/12.png", category: "chamber",
+                id: 12, name: "Cold Curing Chamber (Pin Type)", model: "KRI-CCC-3-11.20",
+				img: "image/12.png",
+				images: ["image/12.png", "image/121.png", "image/123.png", "image/122.png"],
+				category: "chamber",
                 summary: "Insulated 3-tyre curing chamber with round heaters and pin-type door.",
                 specs: [
                     "Capacity: Upto 11.20 tyre size (3 tyres of 10.00-20 + 1 tyre of LTV size).",
@@ -1468,7 +1747,10 @@ footer {
                 ]
             },
             {
-                id: 13, name: "Cold Curing Chamber (Pneumatic Door)", model: "KRI-CCC-3-11.20", img: "image/13.png", category: "chamber",
+                id: 13, name: "Cold Curing Chamber (Pneumatic Door)", model: "KRI-CCC-3-11.20", 
+				img: "image/13.png",
+				images: ["image/13.png", "image/131.png"],
+				category: "chamber",
                 summary: "3-tyre chamber featuring a pneumatic door and inbuilt tyre lift.",
                 specs: [
                     "Capacity: Upto 11.20 tyre size (3 tyres of 10.00-20 + 1 tyre of LTV size).",
@@ -1522,7 +1804,10 @@ footer {
                 ]
             },
             {
-                id: 17, name: "Mobile Type Lift", model: "KRI-TL-10.20", img: "image/17.png", category: "other",
+                id: 17, name: "Mobile Type Lift", model: "KRI-TL-10.20", 
+				img: "image/17.png", 
+					images: ["image/17.png", "image/171.png"],
+				category: "other",
                 summary: "Movable pneumatic lift for heavy rimmed tyres.",
                 specs: [
                     "Movable lift for lifting of rimmed tyres.",
@@ -1578,7 +1863,10 @@ footer {
                 ]
             },
             {
-                id: 23, name: "Tyre Changer Machine (Manual)", model: "KRI-TC-16", img: "image/23.png", category: "other",
+                id: 23, name: "Tyre Changer Machine (Manual)", model: "KRI-TC-16", 
+				img: "image/23.png", 
+				images: ["image/23.png", "image/231.png"],
+				category: "other",
                 summary: "Pneumatically operated manual tyre changer.",
                 specs: [
                     "Capacity Up-to 16\" tyre size.",
@@ -1598,8 +1886,26 @@ footer {
                     "Distribution Control Panel Board.",
                     "Retreading Tools."
                 ]
+            },
+			{
+                id: 25, 
+                name: "Distribution Control Panel Board", 
+                model: "KMT", 
+                img: "image/distribution_panel.png", 
+                category: "other",
+                summary: "Electrical distribution control panel board for centralized equipment control.",
+                specs: [
+                    "Distribution Control Panel Board.",
+                    "Features modular control compartments.",
+                    "Equipped with analog meters, indicator lights, and control switches.",
+                    "Heavy-duty floor-mounted frame."
+                ]
             }
         ];
+		
+		
+		
+		
 
 let activeFilter = 'all';
 const modalImgPanel = document.querySelector('.modal-img-panel');
@@ -1664,14 +1970,23 @@ function openModal(id) {
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
 }
+
+
+
+const BASE_SCALE = 1.6; // Makes it 60% bigger by default to hide empty borders
+const ZOOM_SCALE = 3.5; // Makes it huge when clicked to zoom
+
 function updateModalGallery() {
   const imgEl = document.getElementById('modalImg');
   imgEl.src = currentMachineImages[currentImageIndex];
   
+  // FIX: Reset using BASE_SCALE instead of scale(1)
   imgEl.classList.remove('zoomed');
+  imgEl.style.transform = `scale(${BASE_SCALE}) translate(0px, 0px)`;
   isZoomed = false;
+  translateX = 0; 
+  translateY = 0;
   
-  // Manage navigation buttons visibility
   const prevBtn = document.querySelector('.prev-btn');
   const nextBtn = document.querySelector('.next-btn');
   const indicatorsContainer = document.getElementById('imgIndicators');
@@ -1682,7 +1997,6 @@ function updateModalGallery() {
     prevBtn.style.display = 'flex';
     nextBtn.style.display = 'flex';
     
-    // Create dots
     currentMachineImages.forEach((_, idx) => {
       const dot = document.createElement('div');
       dot.className = `img-dot ${idx === currentImageIndex ? 'active' : ''}`;
@@ -1740,25 +2054,89 @@ buildGrid('all');
 
 // ─── CLICK TO ZOOM LOGIC ───
 let isZoomed = false;
+let isDragging = false;
+let dragStartX, dragStartY;
+let translateX = 0, translateY = 0;
+let hasDragged = false;
 
+// Helper to get coordinates for both Mouse and Touch
+function getEventLocation(e) {
+  if (e.touches && e.touches.length > 0) {
+    return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  } else if (e.changedTouches && e.changedTouches.length > 0) {
+    return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+  }
+  return { x: e.clientX, y: e.clientY };
+}
+
+function startDrag(e) {
+  if (!isZoomed) return;
+  // Only prevent default on mouse, or non-cancelable touch events to keep scrolling smooth elsewhere
+  if(e.cancelable) e.preventDefault(); 
+  
+  isDragging = true;
+  hasDragged = false;
+  
+  const pos = getEventLocation(e);
+  dragStartX = pos.x - translateX;
+  dragStartY = pos.y - translateY;
+  
+  modalImgTarget.style.transition = 'none'; // Instant follow while dragging
+}
+
+function moveDrag(e) {
+  if (!isDragging) return;
+  if(e.cancelable) e.preventDefault(); 
+  
+  hasDragged = true; 
+  
+  const pos = getEventLocation(e);
+  translateX = pos.x - dragStartX;
+  translateY = pos.y - dragStartY;
+  
+  // FIX: Use ZOOM_SCALE to keep finger tracking accurate
+  modalImgTarget.style.transform = `scale(${ZOOM_SCALE}) translate(${translateX / ZOOM_SCALE}px, ${translateY / ZOOM_SCALE}px)`;
+}
+
+function endDrag() {
+  if (!isDragging) return;
+  isDragging = false;
+  modalImgTarget.style.transition = 'transform 0.3s ease'; // Restore smooth transition
+}
+
+// Attach Desktop Mouse Events
+modalImgTarget.addEventListener('mousedown', startDrag);
+window.addEventListener('mousemove', moveDrag);
+window.addEventListener('mouseup', endDrag);
+
+// Attach Mobile Touch Events (passive: false is required to stop background scrolling)
+modalImgTarget.addEventListener('touchstart', startDrag, { passive: false });
+window.addEventListener('touchmove', moveDrag, { passive: false });
+window.addEventListener('touchend', endDrag);
+
+// Handle zooming in and out (Works for Click and Tap)
 modalImgTarget.addEventListener('click', function(e) {
+  if (hasDragged) {
+    hasDragged = false;
+    return;
+  }
+
   if (!isZoomed) {
-    // Get the exact click coordinates relative to the image
-    const rect = this.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    
-    // Set the zoom origin to the click point and add the zoom class
-    this.style.transformOrigin = `${x}% ${y}%`;
+    // Zoom In
     this.classList.add('zoomed');
     isZoomed = true;
+    translateX = 0;
+    translateY = 0;
+    this.style.transform = `scale(${ZOOM_SCALE}) translate(0px, 0px)`;
   } else {
-    // Zoom back out
+    // Zoom Out - FIX: Return to BASE_SCALE instead of scale(1)
     this.classList.remove('zoomed');
     isZoomed = false;
+    translateX = 0;
+    translateY = 0;
+    this.style.transform = `scale(${BASE_SCALE}) translate(0px, 0px)`;
   }
 });
-
 
 
 
@@ -1807,6 +2185,109 @@ function resetHeroInterval() {
 if(heroSlides.length > 1) {
   resetHeroInterval();
 }
+
+// ─── CERTIFICATE LIGHTBOX LOGIC ───
+const certLightbox = document.getElementById('interactiveCertLightbox');
+const certLightboxImg = document.getElementById('interactiveCertImg');
+
+let isCertZoomed = false;
+let isCertDragging = false;
+let certDragStartX, certDragStartY;
+let certTranslateX = 0, certTranslateY = 0;
+let certHasDragged = false;
+
+function openInteractiveCert(imgSrc) {
+  certLightboxImg.src = imgSrc;
+  certLightbox.classList.add('active');
+  document.body.style.overflow = 'hidden'; 
+  
+  // Reset zoom and pan
+  certLightboxImg.classList.remove('zoomed');
+  certLightboxImg.style.transform = 'scale(1) translate(0px, 0px)';
+  isCertZoomed = false;
+  certTranslateX = 0; 
+  certTranslateY = 0;
+}
+
+function closeInteractiveCert(e) {
+  certLightbox.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function getCertEventLocation(e) {
+  if (e.touches && e.touches.length > 0) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  if (e.changedTouches && e.changedTouches.length > 0) return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+  return { x: e.clientX, y: e.clientY };
+}
+
+function startCertDrag(e) {
+  if (!isCertZoomed) return;
+  if(e.cancelable) e.preventDefault(); 
+  
+  isCertDragging = true;
+  certHasDragged = false;
+  
+  const pos = getCertEventLocation(e);
+  certDragStartX = pos.x - certTranslateX;
+  certDragStartY = pos.y - certTranslateY;
+  certLightboxImg.style.transition = 'none'; 
+}
+
+function moveCertDrag(e) {
+  if (!isCertDragging) return;
+  if(e.cancelable) e.preventDefault(); 
+  
+  certHasDragged = true; 
+  const pos = getCertEventLocation(e);
+  certTranslateX = pos.x - certDragStartX;
+  certTranslateY = pos.y - certDragStartY;
+  
+  certLightboxImg.style.transform = `scale(2.5) translate(${certTranslateX / 2.5}px, ${certTranslateY / 2.5}px)`;
+}
+
+function endCertDrag() {
+  if (!isCertDragging) return;
+  isCertDragging = false;
+  certLightboxImg.style.transition = 'transform 0.3s ease'; 
+}
+
+// Attach Desktop & Mobile Events
+certLightboxImg.addEventListener('mousedown', startCertDrag);
+window.addEventListener('mousemove', moveCertDrag);
+window.addEventListener('mouseup', endCertDrag);
+
+certLightboxImg.addEventListener('touchstart', startCertDrag, { passive: false });
+window.addEventListener('touchmove', moveCertDrag, { passive: false });
+window.addEventListener('touchend', endCertDrag);
+
+// Zoom In/Out Click Logic
+certLightboxImg.addEventListener('click', function(e) {
+  if (certHasDragged) {
+    certHasDragged = false;
+    return;
+  }
+  e.stopPropagation();
+  
+  if (!isCertZoomed) {
+    this.classList.add('zoomed');
+    isCertZoomed = true;
+    certTranslateX = 0; certTranslateY = 0;
+    this.style.transform = `scale(2.5) translate(0px, 0px)`;
+  } else {
+    this.classList.remove('zoomed');
+    isCertZoomed = false;
+    certTranslateX = 0; certTranslateY = 0;
+    this.style.transform = `scale(1) translate(0px, 0px)`;
+  }
+});
+
+// Escape key to close
+document.addEventListener('keydown', e => { 
+  if (e.key === 'Escape' && certLightbox.classList.contains('active')) {
+    closeInteractiveCert(e); 
+  }
+});
+
 
 
 </script>
