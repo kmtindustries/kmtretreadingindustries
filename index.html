@@ -142,12 +142,13 @@ nav ul a:hover::after { width: 100%; }
 
 .hero-right {
   position: relative;
-  height: 100%; /* Fills the height of the left column perfectly */
-  min-height: 480px; /* Just a safety net so it doesn't get too small */
+  height: 100%;
+  min-height: 480px;
   background: var(--paper-2);
+  border-radius: 24px;
+  box-shadow: var(--shadow-lg);
   overflow: hidden;
-  border-radius: 24px; 
-  box-shadow: var(--shadow-lg); 
+  /* Completely removed clip-path from here */
 }
 
 .hero-left {
@@ -280,10 +281,16 @@ nav ul a:hover::after { width: 100%; }
 
 .hero-img-wrapper {
   position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+  
+  /* THE ULTIMATE SAFARI FIX: A solid mask */
+  -webkit-mask-image: linear-gradient(#fff, #fff);
+  mask-image: linear-gradient(#fff, #fff);
+  
+  transform: translateZ(0); /* Hardware acceleration */
 }
 
 .hero-img-wrapper img {
@@ -292,6 +299,7 @@ nav ul a:hover::after { width: 100%; }
   object-fit: cover;
   object-position: center;
 }
+
 
 .hero-overlay {
   position: absolute;
@@ -1214,51 +1222,103 @@ footer {
   transform: translateY(0);
 }
 
+
 /* ─── RESPONSIVE ─── */
+
 @media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; min-height: auto; padding: 0; }
-  .hero-left { padding: 2rem 5%; }
-  .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
-  .stat { flex: 1 1 40%; }
-  
-  /* FIX 1: Forces Hero Image to have rounded corners on mobile */
- .hero-right { 
-    min-height: 340px; 
-    margin: 0 5% 2rem 5%; 
-    border-radius: 24px !important; 
-    overflow: hidden !important; 
-    
-    /* Ultimate Safari/Mobile corner clipping fixes */
-    isolation: isolate;
-    transform: translateZ(0);
-    -webkit-mask-image: -webkit-radial-gradient(white, black); 
+  /* 1. Hero Layout Adjustments */
+  .hero { 
+    grid-template-columns: 1fr; 
+    min-height: auto; 
+    padding: 0; 
   }
   
-  /* Add this to force the images inside to respect the curve */
- .hero-img-wrapper { 
-    border-radius: 24px !important; 
-    overflow: hidden !important;
-  }
- .hero-slide { 
-    border-radius: 0 !important; 
+  .hero-left { 
+    padding: 2rem 5%; 
   }
   
-  .hero-iso-badge { bottom: 20px; left: 20px; }
-  .machine-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
-  .modal-box { grid-template-columns: 1fr; }
+  .hero-stats { 
+    flex-wrap: wrap; 
+    gap: 1.5rem; 
+  }
   
-  /* FIX 2: Adds padding back to the machine image on mobile so it isn't squeezed */
-  .modal-img-panel { 
-    border-right: none; 
-    border-bottom: 1px solid var(--paper-3); 
-    min-height: 280px; 
-    padding: 2.5rem; 
+  .stat { 
+    flex: 1 1 40%; 
   }
 
-  .certs-grid { grid-template-columns: 1fr; }
-  .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
-  nav ul { display: none; }
+
+.hero-right {
+    height: 340px !important; 
+    min-height: 340px !important;
+    
+    /* CHANGED: Increased the 3rd value from 2rem to 4rem for more bottom space */
+    margin: 0 5% 4rem 5% !important; 
+    
+    border-radius: 24px !important;
+    overflow: hidden !important;
+    position: relative !important;
+    z-index: 10 !important; 
+    isolation: isolate !important;
+  }
+
+  .hero-img-wrapper {
+    height: 100% !important;
+    border-radius: 24px !important;
+    overflow: hidden !important;
+  }
+
+  .hero-slide {
+    /* Put the curve directly on the image to guarantee it curves during zoom */
+    border-radius: 24px !important;
+  }
+
+  /* 3. Modal 40/60 Split Fix (Ensures text is visible) */
+  .modal-box { 
+    grid-template-columns: 1fr !important; 
+    grid-template-rows: 40% 60% !important; /* Locks image to top 40% */
+    height: 90vh !important;
+    width: 95% !important;
+  }
+  
+  .modal-img-panel { 
+    border-right: none !important; 
+    border-bottom: 1px solid var(--paper-3) !important; 
+    height: 100% !important; 
+    min-height: auto !important; 
+    padding: 1rem !important; 
+  }
+
+  .modal-info-panel {
+    padding: 1.5rem !important;
+    height: 100% !important;
+    overflow-y: auto !important; /* Allows scrolling through specs */
+  }
+
+  /* 4. General Mobile UI Cleanup */
+  .hero-iso-badge { 
+    bottom: 20px; 
+    left: 20px; 
+  }
+  
+  .machine-grid { 
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+  }
+
+  .certs-grid { 
+    grid-template-columns: 1fr; 
+  }
+  
+  .contact-grid { 
+    grid-template-columns: 1fr; 
+    gap: 2rem; 
+  }
+  
+  nav ul { 
+    display: none; 
+  }
 }
+
+
 </style>
 
 <script type="application/ld+json">
@@ -2227,14 +2287,14 @@ function getEventLocation(e) {
 
 function startDrag(e) {
   if (!isZoomed) return;
-  if(e.cancelable) e.preventDefault(); 
+  // DELETED the e.preventDefault() line here so the click event can fire!
   
   isDragging = true;
   hasDragged = false;
   
   const pos = getEventLocation(e);
-  rawStartX = pos.x; // ADD THIS
-  rawStartY = pos.y; // ADD THIS
+  rawStartX = pos.x;
+  rawStartY = pos.y;
   dragStartX = pos.x - translateX;
   dragStartY = pos.y - translateY;
   
