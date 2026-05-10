@@ -57,11 +57,12 @@ body {
 }
 
 /* ─── NAV ─── */
+/* ─── COMPLETE NAV BAR CSS ─── */
 nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(248,246,241,0.92);
+  background: rgba(248, 246, 241, 0.95); /* Restores the solid background */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--paper-3);
@@ -69,30 +70,48 @@ nav {
   align-items: center;
   justify-content: space-between;
   padding: 0 5%;
-  height: 64px;
+  height: 72px; /* Slightly taller to nicely fit the logo */
 }
 
+/* Logo Layout Container */
 .nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; 
+}
+
+/* Strict limits on the Logo Image */
+.nav-logo-img {
+  height: 98px !important;
+  width: 98px !important;
+  min-width: 38px;
+  object-fit: contain;
+}
+
+/* Text Container */
+.nav-logo-text {
   display: flex;
   flex-direction: column;
   gap: 0;
 }
 
-.nav-logo strong {
+.nav-logo-text strong {
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--ink);
   text-transform: uppercase;
+  line-height: 1.2;
 }
 
-.nav-logo span {
+.nav-logo-text span {
   font-size: 0.65rem;
   color: var(--ink-3);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
+/* Menu Links */
 nav ul {
   list-style: none;
   display: flex;
@@ -1355,8 +1374,12 @@ footer {
 <!-- NAV -->
 <nav>
   <div class="nav-logo">
-    <strong>K.M.T. Retreading Industries</strong>
-    <span>ISO 9001:2015 Certified · Est. 1995</span>
+    <img src="image/favicon.png" alt="K.M.T. Logo" class="nav-logo-img">
+    
+    <div class="nav-logo-text">
+      <strong>K.M.T. Retreading Industries</strong>
+      <span>ISO 9001:2015 Certified · Est. 1995</span>
+    </div>
   </div>
   <ul>
     <li><a href="#home">About</a></li>
