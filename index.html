@@ -635,12 +635,17 @@ section {
 }
 
 .modal-img-panel img {
-  width: 100%; 
-  height: 100%; 
+  width: 120%; 
+  height: 120%; 
+  max-width: none;
+  max-height: none;
   object-fit: contain;
   transition: transform 0.3s ease; 
   cursor: zoom-in;
-  transform: scale(1.6); /* Makes the image larger by default */
+  transform: scale(1.6);
+  
+  /* ADD THIS LINE to fix mobile double-tap zoom getting stuck */
+  touch-action: none !important; 
 }
 
 .modal-img-panel img.zoomed {
@@ -1018,6 +1023,9 @@ section {
   cursor: zoom-in;
   user-select: none;
   -webkit-user-drag: none;
+  
+  /* ADD THIS LINE to fix mobile double-tap zoom getting stuck */
+  touch-action: none !important; 
 }
 
 .interactive-cert-lightbox img.zoomed { cursor: grab; }
@@ -1122,7 +1130,7 @@ section {
   margin-bottom: 1rem;
 }
 
-.contact-form-box textarea {
+.contact-form-box .contact-input {
   width: 100%;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.12);
@@ -1131,14 +1139,32 @@ section {
   color: var(--white);
   font-family: 'Outfit', sans-serif;
   font-size: 0.92rem;
-  resize: vertical;
-  min-height: 130px;
   margin-bottom: 1rem;
   transition: border-color 0.2s;
 }
 
-.contact-form-box textarea::placeholder { color: rgba(255,255,255,0.3); }
-.contact-form-box textarea:focus { outline: none; border-color: rgba(255,255,255,0.3); }
+.contact-form-box textarea.contact-input {
+  resize: vertical;
+  min-height: 130px;
+}
+
+.contact-form-box .contact-input::placeholder { color: rgba(255,255,255,0.3); }
+.contact-form-box .contact-input:focus { outline: none; border-color: rgba(255,255,255,0.4); }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+
 
 .form-actions {
   display: flex;
@@ -1191,15 +1217,44 @@ footer {
 /* ─── RESPONSIVE ─── */
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; min-height: auto; padding: 0; }
-  .hero-left { padding: 2rem 5%; } /* Fixes the padding on mobile */
-  .hero-stats { flex-wrap: wrap; gap: 1.5rem; } /* Allows stats to wrap */
-  .stat { flex: 1 1 40%; } /* Makes stats a nice 2x2 grid */
+  .hero-left { padding: 2rem 5%; }
+  .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+  .stat { flex: 1 1 40%; }
   
-  .hero-right { min-height: 340px; }
+  /* FIX 1: Forces Hero Image to have rounded corners on mobile */
+ .hero-right { 
+    min-height: 340px; 
+    margin: 0 5% 2rem 5%; 
+    border-radius: 24px !important; 
+    overflow: hidden !important; 
+    
+    /* Ultimate Safari/Mobile corner clipping fixes */
+    isolation: isolate;
+    transform: translateZ(0);
+    -webkit-mask-image: -webkit-radial-gradient(white, black); 
+  }
+  
+  /* Add this to force the images inside to respect the curve */
+ .hero-img-wrapper { 
+    border-radius: 24px !important; 
+    overflow: hidden !important;
+  }
+ .hero-slide { 
+    border-radius: 0 !important; 
+  }
+  
   .hero-iso-badge { bottom: 20px; left: 20px; }
   .machine-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
   .modal-box { grid-template-columns: 1fr; }
-  .modal-img-panel { border-right: none; border-bottom: 1px solid var(--paper-3); min-height: 200px; }
+  
+  /* FIX 2: Adds padding back to the machine image on mobile so it isn't squeezed */
+  .modal-img-panel { 
+    border-right: none; 
+    border-bottom: 1px solid var(--paper-3); 
+    min-height: 280px; 
+    padding: 2.5rem; 
+  }
+
   .certs-grid { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
   nav ul { display: none; }
@@ -1482,11 +1537,24 @@ footer {
           </div>
         </div>
       </div>
-      <a href="tel:+919812044530" class="btn-primary" style="margin-top:2rem; display:inline-flex;">📞 Call Us Now</a>
+      <a href="tel:+919812044530" class="btn-primary" style="margin-top:2rem; display:inline-flex; align-items:center; gap:0.5rem;">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        Call Us Now
+      </a>
     </div>
+    
     <div class="contact-form-box">
       <h3>Send a Direct Message</h3>
-      <textarea id="userCustomMessage" placeholder="Type your inquiry here — e.g., I want pricing for the Mini Rasper..."></textarea>
+      
+      <input type="text" id="userName" class="contact-input" placeholder="Your Name *" required>
+      
+      <div class="form-row">
+        <input type="email" id="userEmail" class="contact-input" placeholder="Email Address">
+        <input type="tel" id="userPhone" class="contact-input" placeholder="Phone Number *" required>
+      </div>
+
+      <textarea id="userMessage" class="contact-input" placeholder="Type your inquiry here — e.g., I want pricing for the Mini Rasper... *" required></textarea>
+      
       <div class="form-actions">
         <button onclick="sendMainWhatsApp()" class="form-btn form-btn-wa">💬 WhatsApp</button>
         <button onclick="sendMainEmail()" class="form-btn form-btn-email">✉ Email</button>
@@ -1973,16 +2041,25 @@ function openModal(id) {
 
 
 
-const BASE_SCALE = 1.6; // Makes it 60% bigger by default to hide empty borders
-const ZOOM_SCALE = 3.5; // Makes it huge when clicked to zoom
+let BASE_SCALE = window.innerWidth < 900 ? 1.1 : 1.6; // 1.1 for mobile, 1.6 for desktop
+
+
+window.addEventListener('resize', () => {
+  BASE_SCALE = window.innerWidth < 900 ? 1.1 : 1.6;
+});
+
+function getBaseScale() {
+  return window.innerWidth < 900 ? 1.0 : 1.6;
+}
+const ZOOM_SCALE = 3.5;
 
 function updateModalGallery() {
   const imgEl = document.getElementById('modalImg');
   imgEl.src = currentMachineImages[currentImageIndex];
   
-  // FIX: Reset using BASE_SCALE instead of scale(1)
+  // Apply the dynamic base scale
   imgEl.classList.remove('zoomed');
-  imgEl.style.transform = `scale(${BASE_SCALE}) translate(0px, 0px)`;
+  imgEl.style.transform = `scale(${getBaseScale()}) translate(0px, 0px)`;
   isZoomed = false;
   translateX = 0; 
   translateY = 0;
@@ -2033,14 +2110,93 @@ function closeModal() {
 modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-function getCustomMessage() {
-  let msg = document.getElementById('userCustomMessage').value.trim();
-  if (!msg) msg = 'Hello K.M.T. Retreading Industries, I would like to request more information about your machinery.';
-  return encodeURIComponent(msg);
+function validateAndBuildMessage() {
+  const nameInput = document.getElementById('userName');
+  const emailInput = document.getElementById('userEmail');
+  const phoneInput = document.getElementById('userPhone');
+  const msgInput = document.getElementById('userMessage');
+
+  const name = nameInput.value.trim();
+  const email = emailInput.value.trim();
+  const phone = phoneInput.value.trim();
+  let msg = msgInput.value.trim();
+
+  // Reset any previous error styling
+  nameInput.style.borderColor = 'rgba(255,255,255,0.12)';
+  emailInput.style.borderColor = 'rgba(255,255,255,0.12)';
+  phoneInput.style.borderColor = 'rgba(255,255,255,0.12)';
+
+  // Validation Patterns (Regex)
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // Strips spaces, dashes, and brackets to just check the raw numbers
+  const strippedPhone = phone.replace(/[\s\-()]/g, '');
+  const phonePattern = /^\+?[0-9]{7,15}$/; 
+
+  // 1. Check if Name is filled
+  if (!name) {
+    nameInput.style.borderColor = '#ff4d4d'; // Red error border
+    alert("Please provide your Name.");
+    nameInput.focus();
+    return null; // Stop process
+  }
+
+  // 2. Check if EITHER Email OR Phone is filled
+  if (!email && !phone) {
+    emailInput.style.borderColor = '#ff4d4d';
+    phoneInput.style.borderColor = '#ff4d4d';
+    alert("Please provide either an Email Address or a Phone Number so we can contact you.");
+    phoneInput.focus();
+    return null;
+  }
+
+  // 3. Check if Email is valid (ONLY if they typed something in the email box)
+  if (email && !emailPattern.test(email)) {
+    emailInput.style.borderColor = '#ff4d4d';
+    alert("Please enter a valid email address (e.g., name@domain.com).");
+    emailInput.focus();
+    return null;
+  }
+
+  // 4. Check if Phone is valid (ONLY if they typed something in the phone box)
+  if (phone && !phonePattern.test(strippedPhone)) {
+    phoneInput.style.borderColor = '#ff4d4d';
+    alert("Please enter a valid phone number (7 to 15 digits).");
+    phoneInput.focus();
+    return null;
+  }
+
+  // Validation passed, build the message
+  let finalMessage = `Hello K.M.T. Retreading Industries,\n\n`;
+  
+  finalMessage += `Name: ${name}\n`;
+  if (phone) finalMessage += `Phone: ${phone}\n`;
+  if (email) finalMessage += `Email: ${email}\n`;
+  
+  finalMessage += `\n`; 
+
+  if (!msg) {
+    msg = 'I would like to request more information about your machinery.';
+  }
+  
+  finalMessage += `Message:\n${msg}`;
+
+  return encodeURIComponent(finalMessage);
 }
 
-function sendMainWhatsApp() { window.open(`https://wa.me/919812044530?text=${getCustomMessage()}`, '_blank'); }
-function sendMainEmail() { window.location.href = `mailto:kmtretind@gmail.com?subject=Website Inquiry&body=${getCustomMessage()}`; }
+// Updated send functions to check validation first
+function sendMainWhatsApp() { 
+  const message = validateAndBuildMessage();
+  if (message) {
+    window.open(`https://wa.me/919812044530?text=${message}`, '_blank'); 
+  }
+}
+
+function sendMainEmail() { 
+  const message = validateAndBuildMessage();
+  if (message) {
+    window.location.href = `mailto:kmtretind@gmail.com?subject=Website Inquiry&body=${message}`; 
+  }
+}
 
 // Scroll animations
 const observer = new IntersectionObserver((entries) => {
@@ -2057,9 +2213,9 @@ let isZoomed = false;
 let isDragging = false;
 let dragStartX, dragStartY;
 let translateX = 0, translateY = 0;
+let rawStartX, rawStartY;
 let hasDragged = false;
 
-// Helper to get coordinates for both Mouse and Touch
 function getEventLocation(e) {
   if (e.touches && e.touches.length > 0) {
     return { x: e.touches[0].clientX, y: e.touches[0].clientY };
@@ -2071,50 +2227,54 @@ function getEventLocation(e) {
 
 function startDrag(e) {
   if (!isZoomed) return;
-  // Only prevent default on mouse, or non-cancelable touch events to keep scrolling smooth elsewhere
   if(e.cancelable) e.preventDefault(); 
   
   isDragging = true;
   hasDragged = false;
   
   const pos = getEventLocation(e);
+  rawStartX = pos.x; // ADD THIS
+  rawStartY = pos.y; // ADD THIS
   dragStartX = pos.x - translateX;
   dragStartY = pos.y - translateY;
   
-  modalImgTarget.style.transition = 'none'; // Instant follow while dragging
+  modalImgTarget.style.transition = 'none';
 }
 
 function moveDrag(e) {
   if (!isDragging) return;
   if(e.cancelable) e.preventDefault(); 
   
-  hasDragged = true; 
-  
   const pos = getEventLocation(e);
+
+  // ADD THIS THRESHOLD CHECK
+  if (Math.abs(pos.x - rawStartX) > 5 || Math.abs(pos.y - rawStartY) > 5) {
+      hasDragged = true; 
+  }
+
+  // ADD THIS EARLY RETURN
+  if (!hasDragged) return; 
+  
   translateX = pos.x - dragStartX;
   translateY = pos.y - dragStartY;
   
-  // FIX: Use ZOOM_SCALE to keep finger tracking accurate
   modalImgTarget.style.transform = `scale(${ZOOM_SCALE}) translate(${translateX / ZOOM_SCALE}px, ${translateY / ZOOM_SCALE}px)`;
 }
 
 function endDrag() {
   if (!isDragging) return;
   isDragging = false;
-  modalImgTarget.style.transition = 'transform 0.3s ease'; // Restore smooth transition
+  modalImgTarget.style.transition = 'transform 0.3s ease';
 }
 
-// Attach Desktop Mouse Events
 modalImgTarget.addEventListener('mousedown', startDrag);
 window.addEventListener('mousemove', moveDrag);
 window.addEventListener('mouseup', endDrag);
 
-// Attach Mobile Touch Events (passive: false is required to stop background scrolling)
 modalImgTarget.addEventListener('touchstart', startDrag, { passive: false });
 window.addEventListener('touchmove', moveDrag, { passive: false });
 window.addEventListener('touchend', endDrag);
 
-// Handle zooming in and out (Works for Click and Tap)
 modalImgTarget.addEventListener('click', function(e) {
   if (hasDragged) {
     hasDragged = false;
@@ -2129,12 +2289,12 @@ modalImgTarget.addEventListener('click', function(e) {
     translateY = 0;
     this.style.transform = `scale(${ZOOM_SCALE}) translate(0px, 0px)`;
   } else {
-    // Zoom Out - FIX: Return to BASE_SCALE instead of scale(1)
+    // Zoom Out - Uses dynamic Base Scale depending on screen size
     this.classList.remove('zoomed');
     isZoomed = false;
     translateX = 0;
     translateY = 0;
-    this.style.transform = `scale(${BASE_SCALE}) translate(0px, 0px)`;
+    this.style.transform = `scale(${getBaseScale()}) translate(0px, 0px)`;
   }
 });
 
@@ -2193,6 +2353,7 @@ const certLightboxImg = document.getElementById('interactiveCertImg');
 let isCertZoomed = false;
 let isCertDragging = false;
 let certDragStartX, certDragStartY;
+let rawCertStartX, rawCertStartY;
 let certTranslateX = 0, certTranslateY = 0;
 let certHasDragged = false;
 
@@ -2228,17 +2389,27 @@ function startCertDrag(e) {
   certHasDragged = false;
   
   const pos = getCertEventLocation(e);
+  rawCertStartX = pos.x; // ADD THIS
+  rawCertStartY = pos.y; // ADD THIS
   certDragStartX = pos.x - certTranslateX;
   certDragStartY = pos.y - certTranslateY;
-  certLightboxImg.style.transition = 'none'; 
+  certLightboxImg.style.transition = 'none';
 }
 
 function moveCertDrag(e) {
   if (!isCertDragging) return;
   if(e.cancelable) e.preventDefault(); 
   
-  certHasDragged = true; 
   const pos = getCertEventLocation(e);
+  
+  // ADD THIS THRESHOLD CHECK
+  if (Math.abs(pos.x - rawCertStartX) > 5 || Math.abs(pos.y - rawCertStartY) > 5) {
+      certHasDragged = true; 
+  }
+
+  // ADD THIS EARLY RETURN
+  if (!certHasDragged) return;
+
   certTranslateX = pos.x - certDragStartX;
   certTranslateY = pos.y - certDragStartY;
   
